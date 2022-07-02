@@ -63,6 +63,18 @@
 	font-size: 1.2em;
 }
 
+.Label2 {
+	-webkit-font-smoothing: subpixel-antialiased;
+	-webkit-text-size-adjust: none;
+	-webkit-tap-highlight-color: transparent;
+	font-family: Mulish, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+		Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+	font-style: normal;
+	font-weight: 800;
+	font-size: 1.2em;
+	margin-top: 45px;
+}
+
 .Form {
 	-webkit-font-smoothing: subpixel-antialiased;
 	-webkit-text-size-adjust: none;

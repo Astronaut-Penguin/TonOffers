@@ -9,30 +9,66 @@ import { Form } from 'react-bootstrap';
 
 // OUR COMPONENTS
 import { Button_Action } from '../../components';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import {
+	createPaymentChannel,
+	toHexString,
+	updateChannel,
+	verifyState,
+} from '../../redux/reducers/ton_payment_reducer/payment_reducer';
 
 type PaymentChannelProps = {
 	style?: React.CSSProperties;
+	hisPublicKey: string;
 };
 
 ////////////////////
 // COMPONENT VIEW //
 ////////////////////
-const PaymentChannel: React.FC<PaymentChannelProps> = ({ style }) => {
+const PaymentChannel: React.FC<PaymentChannelProps> = ({
+	style,
+	hisPublicKey,
+}) => {
 	////////////////////
 	// FORM FUNCTIONS //
 	////////////////////
+
+	const { myKeyPair } = useAppSelector((state) => state.ton);
+	const dispatch = useAppDispatch();
+
+	const myPublicKey = myKeyPair ? myKeyPair.publicKey : '';
+	const myReadablePublicKey = myKeyPair ? toHexString(myPublicKey) : '';
+	const myShortPublicKey = myKeyPair
+		? myReadablePublicKey.slice(0, 6) +
+		  '...' +
+		  myReadablePublicKey.slice(
+				myReadablePublicKey.length - 6,
+				myReadablePublicKey.length,
+		  )
+		: '';
+
+	const hisReadablePublicKey = hisPublicKey ? hisPublicKey : '';
+	const hisShortPublicKey = myKeyPair
+		? hisReadablePublicKey.slice(0, 6) +
+		  '...' +
+		  hisReadablePublicKey.slice(
+				hisReadablePublicKey.length - 6,
+				hisReadablePublicKey.length,
+		  )
+		: '';
 
 	// STATES
 	// User Data for Register
 	const [data, setData] = useState({
 		type: 1,
-
-		from: '',
-		to: '',
-		contractorBalance: 0,
-		invitedBalance: 0,
-		seqContractor: 0,
-		secInvited: 0,
+		typeTx: 1,
+		my: '',
+		his: '',
+		myBalance: 0,
+		hisBalance: 0,
+		mySeqno: 0,
+		hisSeqno: 0,
+		channelNumber: 0,
 
 		signature: '',
 	});
@@ -40,12 +76,14 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({ style }) => {
 	// Catch values
 	const {
 		type,
-		from,
-		to,
-		contractorBalance,
-		invitedBalance,
-		seqContractor,
-		secInvited,
+		typeTx,
+		my,
+		his,
+		myBalance,
+		hisBalance,
+		mySeqno,
+		hisSeqno,
+		channelNumber,
 		signature,
 	} = data;
 
@@ -69,6 +107,16 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({ style }) => {
 		});
 	};
 
+	// Catch Input Values
+	const handleSelectTx = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		const { value } = e.target;
+
+		setData({
+			...data,
+			[e.target.name]: value,
+		});
+	};
+
 	////////////
 	// RENDER //
 	////////////
@@ -78,8 +126,20 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({ style }) => {
 				<h2 className={styles.Title}>Payment Channel</h2>
 				<Form.Label className={styles.Label}>Who are you?</Form.Label>
 				<Form.Select size="lg" value={type} name="type" onChange={handleSelect}>
-					<option value="1">I'm the Buyer</option>
-					<option value="2">I'm the Seller</option>
+					<option value="1">I'm buying</option>
+					<option value="2">I'm selling</option>
+				</Form.Select>
+
+				<Form.Label className={styles.Label2}>I want to:</Form.Label>
+				<Form.Select
+					size="lg"
+					value={typeTx}
+					name="typeTx"
+					onChange={handleSelectTx}
+				>
+					<option value="1">Create a new payment channel</option>
+					<option value="2">Sign a new payment channel state</option>
+					<option value="3">Verify a new payment channel state</option>
 				</Form.Select>
 
 				<br />
@@ -88,37 +148,27 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({ style }) => {
 					<Form>
 						<div className={styles.Group}>
 							<Form.Group className="mb-3" controlId="formBasicEmail">
-								<Form.Label className={styles.Label}>FROM Address</Form.Label>
-								<p className={styles.Label}>Wallet Acá</p>
+								<Form.Label className={styles.Label}>My Public Key</Form.Label>
+								<p className={styles.Label}>{myShortPublicKey}</p>
 							</Form.Group>
 						</div>
 
 						<div className={styles.Group}>
 							<Form.Group className="mb-3" controlId="formBasicEmail">
-								<Form.Label className={styles.Label}>TO Address</Form.Label>
-								<Form.Control
-									className={styles.Form}
-									maxLength={50}
-									onChange={handleChange}
-									value={to}
-									name="to"
-									type="to"
-									placeholder="TO Address"
-								/>
+								<Form.Label className={styles.Label}>His Address</Form.Label>
+								<p className={styles.Label}>{hisShortPublicKey}</p>
 							</Form.Group>
 						</div>
 
 						<div className={styles.Group}>
 							<Form.Group className="mb-3" controlId="formBasicEmail">
-								<Form.Label className={styles.Label}>
-									Contractor Balance
-								</Form.Label>
+								<Form.Label className={styles.Label}>My Balance</Form.Label>
 								<Form.Control
 									className={styles.Form}
 									maxLength={20}
 									onChange={handleChange}
-									value={contractorBalance}
-									name="contractorBalance"
+									value={myBalance}
+									name="myBalance"
 									type="number"
 									placeholder="0"
 								/>
@@ -127,15 +177,13 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({ style }) => {
 
 						<div className={styles.Group}>
 							<Form.Group className="mb-3" controlId="formBasicEmail">
-								<Form.Label className={styles.Label}>
-									Invited Balance
-								</Form.Label>
+								<Form.Label className={styles.Label}>His Balance</Form.Label>
 								<Form.Control
 									className={styles.Form}
 									maxLength={20}
 									onChange={handleChange}
-									value={invitedBalance}
-									name="invitedBalance"
+									value={hisBalance}
+									name="hisBalance"
 									type="number"
 									placeholder="0"
 								/>
@@ -144,21 +192,37 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({ style }) => {
 
 						<div className={styles.Group}>
 							<Form.Group className="mb-3" controlId="formBasicEmail">
-								<Form.Label className={styles.Label}>SEQ Contractor</Form.Label>
-								<p className={styles.Label}>0</p>
+								<Form.Label className={styles.Label}>My seqno</Form.Label>
+								<Form.Control
+									className={styles.Form}
+									maxLength={20}
+									onChange={handleChange}
+									value={mySeqno}
+									name="mySeqno"
+									type="number"
+									placeholder="0"
+								/>
 							</Form.Group>
 						</div>
 
 						<div className={styles.Group}>
 							<Form.Group className="mb-3" controlId="formBasicEmail">
-								<Form.Label className={styles.Label}>SEQ Invited</Form.Label>
-								<p className={styles.Label}>0</p>
+								<Form.Label className={styles.Label}>His seqno</Form.Label>
+								<Form.Control
+									className={styles.Form}
+									maxLength={20}
+									onChange={handleChange}
+									value={hisSeqno}
+									name="hisSeqno"
+									type="number"
+									placeholder="0"
+								/>
 							</Form.Group>
 						</div>
 
 						<div className={styles.Group}>
 							<Form.Group className="mb-3" controlId="formBasicEmail">
-								<Form.Label className={styles.Label}>Signature</Form.Label>
+								<Form.Label className={styles.Label}>Signature </Form.Label>
 								<Form.Control
 									className={styles.Form}
 									maxLength={256}
@@ -170,12 +234,60 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({ style }) => {
 								/>
 							</Form.Group>
 						</div>
+						<div className={styles.Group}>
+							<Form.Group className="mb-3" controlId="formBasicEmail">
+								<Form.Label className={styles.Label}>Channel Number</Form.Label>
+								<Form.Control
+									className={styles.Form}
+									maxLength={256}
+									onChange={handleChange}
+									value={channelNumber}
+									name="channelNumber"
+									type="text"
+									placeholder="Signature"
+								/>
+							</Form.Group>
+						</div>
 					</Form>
 				</div>
 			</div>
 			<div className={styles.Container_Buttons}>
-				<Button_Action text="Create Channel" onClick={() => {}} />
-				<Button_Action text="Aprobe Payment" onClick={() => {}} />
+				<Button_Action
+					text="Send"
+					onClick={() => {
+						const isBuyer = type == 1 ? true : false;
+						const args = {
+							myPublicKey,
+							hisPublicKey,
+							myBalance,
+							hisBalance,
+							mySeqno,
+							hisSeqno,
+							isBuyer,
+							channelNumber
+						}
+						switch (data.typeTx) {
+							case 1: {
+								dispatch(
+									createPaymentChannel(args),
+								);
+								break;
+							}
+							case 2: {
+								dispatch(
+									verifyState(args),
+								);
+								break;
+							}
+							case 3: {
+								dispatch(
+									updateChannel(args),
+								);
+								break;
+							}
+						}
+					}}
+				/>
 			</div>
 		</section>
 	);

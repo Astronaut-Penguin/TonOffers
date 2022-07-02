@@ -50,6 +50,8 @@ const App: React.FC = () => {
 											description={value.description}
 											image={value.images.perfil}
 											images={value.images.works}
+											route={value.route}
+											publicKey={value.publicKey}
 										/>
 									}
 								/>
@@ -57,7 +59,19 @@ const App: React.FC = () => {
 						})}
 
 						{/* PAYMENT CHANNEL */}
-						<Route path="/paymentchannel" element={<PaymentChannel />} />
+
+						{data.data.map(function (value, i, a) {
+							return (
+								<Route
+									path={'/paymentchannel/' + value.route}
+									element={
+										<PaymentChannel
+											hisPublicKey={value.publicKey}
+										/>
+									}
+								/>
+							);
+						})}
 					</Switch>
 				</div>
 			</Router>

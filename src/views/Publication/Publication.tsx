@@ -10,7 +10,7 @@ import Back from './assets/back.svg';
 // Components
 import { Button_Action } from '../../components';
 
-import { useNavigate } from 'react-router-dom';
+import { Route, useNavigate } from 'react-router-dom';
 
 import Flicking from '@egjs/react-flicking';
 
@@ -25,7 +25,11 @@ type PublicationProps = {
 	description: string;
 	image: string;
 	images: string[];
+<<<<<<< Updated upstream
 	telegram: string;
+	route: string;
+	publicKey: string;
+>>>>>>> Stashed changes
 };
 
 const Publication: React.FC<PublicationProps> = ({
@@ -39,7 +43,12 @@ const Publication: React.FC<PublicationProps> = ({
 	description,
 	image,
 	images,
+<<<<<<< Updated upstream
 	telegram,
+=======
+	route,
+	publicKey
+>>>>>>> Stashed changes
 }) => {
 	const navigate = useNavigate();
 
@@ -88,7 +97,8 @@ const Publication: React.FC<PublicationProps> = ({
 					<Button_Action
 						text={'Payment Channels'}
 						onClick={() => {
-							navigate('/paymentchannel');
+							const navigationRoute = '/paymentchannel/' + route;
+							navigate(navigationRoute);
 						}}
 					/>
 				</div>
