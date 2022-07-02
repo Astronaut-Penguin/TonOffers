@@ -7,6 +7,9 @@ import styles from './Publication.module.css';
 // SVG
 import Back from './assets/backspace.svg';
 
+// Components
+import { Button_Action } from '../../components';
+
 import { useNavigate } from 'react-router-dom';
 
 type PublicationProps = {
@@ -73,8 +76,8 @@ const Publication: React.FC<PublicationProps> = ({
 			<div className={styles.Container_Description}>
 				<h4 className={styles.Title_Description}>Actions</h4>
 				<div className={styles.Container_Button}>
-					<button className={styles.Button_Action}>Create channel</button>
-					<button className={styles.Button_Action}>Aprove payment</button>
+					<Button_Action text="Create channel" />
+					<Button_Action text="Aprobe payment" />
 				</div>
 			</div>
 
