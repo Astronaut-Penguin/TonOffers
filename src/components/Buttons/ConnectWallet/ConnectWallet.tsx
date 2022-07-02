@@ -9,6 +9,7 @@ import { Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import {
 	disconnectWallet,
+	fetchBalance,
 	initSession,
 } from '../../../redux/reducers/ton_payment_reducer/payment_reducer';
 import { useState } from 'react';
@@ -34,7 +35,19 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ open }) => {
 	"..." +
 	myWalletAddress!.toString(true, true, true).slice(42, 48) : "";
 
+	const interval = setInterval(() => {
+		const interval = setInterval(() => {
+			if (connected) {
+					dispatch(fetchBalance({}));
+			}
+		}, 10000);
+		return () => {
+			clearInterval(interval);
+		};
+	}, 5000);
 
+	const balanceFixed = Number(balance)
+	const balanceInGrams = balanceFixed / 10**9 
 
 	////////////
 	// RENDER //
@@ -43,7 +56,7 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ open }) => {
 		<>
 		{connected && 
 			<Button className={styles.BalanceButton}>
-				{'Toncoin balance: ' + balance }
+				{'Toncoin balance: ' + balanceInGrams.toString()  }
 			</Button>
 			}
 			<Button

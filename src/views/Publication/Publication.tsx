@@ -41,6 +41,7 @@ const Publication: React.FC<PublicationProps> = ({
 	description,
 	image,
 	images,
+	telegram,
 	route,
 	publicKey
 }) => {

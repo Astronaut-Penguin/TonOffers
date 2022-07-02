@@ -30,7 +30,33 @@ export const connectWallet = createAsyncThunk(
 		const tonweb = new TonWeb(new TonWeb.HttpProvider(providerUrl, { apiKey })); // Initialize TON SDK
 
 		console.log('creating mnemonic');
-		const mnemonic = await tonMnemonic.generateMnemonic();
+		//const mnemonic = await tonMnemonic.generateMnemonic();
+		const mnemonic = [
+			'type',
+			'vacuum',
+			'fine',
+			'spider',
+			'jaguar',
+			'daring',
+			'noodle',
+			'traffic',
+			'broken',
+			'main',
+			'pottery',
+			'seven',
+			'kiss',
+			'abuse',
+			'athlete',
+			'duty',
+			'machine',
+			'fabric',
+			'arrange',
+			'purchase',
+			'wrap',
+			'gauge',
+			'sheriff',
+			'innocent',
+		];
 		console.log(mnemonic);
 		const myKeyPair = await tonMnemonic.mnemonicToKeyPair(mnemonic);
 		console.log('your public key');
@@ -62,108 +88,157 @@ export const connectWallet = createAsyncThunk(
 	},
 );
 
+export const fetchBalance = createAsyncThunk(
+	'Fetch toncoins',
+	async (thunkAPI: any) => {
+		try {
+			const providerUrl = 'https://testnet.toncenter.com/api/v2/jsonRPC'; // TON HTTP API url. Use this url for testnet
+			const apiKey = process.env.api_key;
+			const tonweb = new TonWeb(
+				new TonWeb.HttpProvider(providerUrl, { apiKey }),
+			); // Initialize TON SDK
+			const balance = await tonweb.getBalance(
+				thunkAPI.getState().myWalletAddress,
+			);
+			console.log(balance);
+			return {
+				balance,
+			};
+		} catch (error) {
+			console.log('Cant fetch balance: ', error);
+		}
+	},
+);
+
 export const createPaymentChannel = createAsyncThunk(
 	'Create Payment Channel',
 	async (action: any, thunkAPI: any) => {
-		console.log(action)
-		const providerUrl = 'https://testnet.toncenter.com/api/v2/jsonRPC'; // TON HTTP API url. Use this url for testnet
-		const apiKey = process.env.api_key;
-		const tonweb = new TonWeb(new TonWeb.HttpProvider(providerUrl, { apiKey })); // Initialize TON SDK
+		try {
+			console.log('Creating channel');
+			console.log(action);
+			const providerUrl = 'https://testnet.toncenter.com/api/v2/jsonRPC'; // TON HTTP API url. Use this url for testnet
+			const apiKey = process.env.api_key;
+			const tonweb = new TonWeb(
+				new TonWeb.HttpProvider(providerUrl, { apiKey }),
+			); // Initialize TON SDK
 
-		const hisWallet = tonweb.wallet.create({
-			publicKey: action.payload.hisPublicKey,
-		});
+			const hisWallet = tonweb.wallet.create({
+				publicKey: action.hisPublicKey,
+			});
 
-		const hisWalletAddress = await hisWallet.getAddress(); // address of this wallet in blockchain
+			const hisWalletAddress = await hisWallet.getAddress(); // address of this wallet in blockchain
 
-		const channelInitState = {
-			balanceA: action.payload.isBuyer
-				? toNano(action.payload.myBalance)
-				: toNano(0),
-			balanceB: action.payload.isBuyer
-				? toNano(0)
-				: toNano(action.payload.hisBalance),
-			seqnoA: new BN(0),
-			seqnoB: new BN(0),
-		};
+			const channelInitState = {
+				balanceA: action.isBuyer ? toNano(action.myBalance) : toNano(0),
+				balanceB: action.isBuyer ? toNano(0) : toNano(action.hisBalance),
+				seqnoA: new BN(0),
+				seqnoB: new BN(0),
+			};
 
-		const channelConfig = {
-			channelId: new BN(action.payload.channelNumber),
-			addressA: action.payload.isBuyer
-				? thunkAPI.getState().tonweb.myWalletAddress
-				: hisWalletAddress,
-			addressB: action.payload.isBuyer
-				? hisWalletAddress
-				: thunkAPI.getState().tonweb.myWalletAddress,
-			initBalanceA: channelInitState.balanceA,
-			initBalanceB: channelInitState.balanceB,
-		};
+			const channelConfig = {
+				channelId: new BN(action.channelNumber),
+				addressA: action.isBuyer
+					? thunkAPI.getState().tonweb.myWalletAddress
+					: hisWalletAddress,
+				addressB: action.isBuyer
+					? hisWalletAddress
+					: thunkAPI.getState().tonweb.myWalletAddress,
+				initBalanceA: channelInitState.balanceA,
+				initBalanceB: channelInitState.balanceB,
+			};
 
-		//isA must be false if user its the invited one to establish the channel, so the buyer its the true state
+			//isA must be false if user its the invited one to establish the channel, so the buyer its the true state
 
-		const channel = tonweb.payments.createChannel({
-			...channelConfig,
-			isA: action.payload.isBuyer,
-			myKeyPair: thunkAPI.getState().tonweb.myKeyPair,
-			hisPublicKey: action.payload.hisPublicKey,
-		});
+			const channel = tonweb.payments.createChannel({
+				...channelConfig,
+				isA: action.isBuyer,
+				myKeyPair: thunkAPI.getState().tonweb.myKeyPair,
+				hisPublicKey: action.hisPublicKey,
+			});
 
-		const mySecretKey = thunkAPI.getState().myKeyPair.secretKey;
-		const myWallet = tonweb.wallet.create({
-			publicKey: thunkAPI.getState().myKeyPair.publicKey,
-		});
+			console.log('Created channel');
+			console.log(channel);
 
-		const fromWallet = channel.fromWallet({
-			wallet: myWallet,
-			secretKey: mySecretKey,
-		});
+			const mySecretKey = thunkAPI.getState().myKeyPair.secretKey;
+			const myWallet = tonweb.wallet.create({
+				publicKey: thunkAPI.getState().myKeyPair.publicKey,
+			});
 
-		const data = await channel.getData();
+			const fromWallet = channel.fromWallet({
+				wallet: myWallet,
+				secretKey: mySecretKey,
+			});
 
-		if (action.payload.isBuyer) {
-			if (!data.publicKeyA) {
-				await fromWallet.deploy().send(toNano('0.05'));
-				await fromWallet
-					.topUp({ coinsA: channelInitState.balanceA, coinsB: new BN(0) })
-					.send(channelInitState.balanceA.add(toNano('0.05'))); // +0.05 TON to network fees
-				await fromWallet.init(channelInitState).send(toNano('0.05'));
+			const data = await channel.getData();
+
+			console.log('Adquired data');
+			console.log(data);
+
+			if (action.isBuyer) {
+				if (!data.publicKeyA) {
+					console.log('Deploy');
+					await fromWallet.deploy().send(toNano('0.05'));
+					console.log('TopUp');
+					await fromWallet
+						.topUp({ coinsA: channelInitState.balanceA, coinsB: new BN(0) })
+						.send(channelInitState.balanceA.add(toNano('0.05'))); // +0.05 TON to network fees
+					console.log('Initialization');
+					await fromWallet.init(channelInitState).send(toNano('0.05'));
+				}
 			}
-		}
 
-		return {
-			channel,
-			fromWallet,
-		};
+			return {
+				channel,
+				fromWallet,
+			};
+		} catch (error) {
+			console.log('Cant Perform Action: ', error);
+		}
 	},
 );
 
 export const updateChannel = createAsyncThunk(
 	'Update payment channel and sign',
 	async (action: any, thunkAPI: any) => {
-		console.log(action)
-		const channel = thunkAPI.getState().currentChannel;
+		try {
+			console.log(action);
+			const channel = thunkAPI.getState().currentChannel;
 
-		const data = await channel.getData();
+			const signature = action.signature;
 
-		const hisSeqnoString = await data.hisSeqno.toString();
-		const hisSeqnoNumber = (await hisSeqnoString.toNumber()) + 1;
-		const mySeqno = new BN(data.mySeqno.toString());
-		const hisSeqno = new BN(hisSeqnoNumber.toString()); //the one that sends payment requests is the invited not the buyer, and its always the userB
+			const data = await channel.getData();
 
-		const channelState = {
-			balanceA: action.payload.isBuyer
-				? toNano(action.payload.myBalance)
-				: toNano(0),
-			balanceB: action.payload.isBuyer
-				? toNano(0)
-				: toNano(action.payload.hisBalance),
-			seqnoA: action.payload.isBuyer ? mySeqno : hisSeqno,
-			seqnoB: action.payload.isBuyer ? hisSeqno : mySeqno,
-		};
+			const seqnoA = await data.seqnoA.toString();
+			const seqnoB = await data.seqnoB.toString();
 
-		const signature = await channel.signState(channelState);
+			const mySeqno = action.isBuyer ? new BN(seqnoA) : new BN(seqnoB);
+			const hisSeqno = action.isBuyer ? seqnoB : seqnoA;
+			const hisSeqnoString = hisSeqno.toString();
+			const hisSeqnoNumber = (await hisSeqnoString.toNumber()) + 1;
+			const hisSeqnoFinal = new BN(hisSeqnoNumber.toString()); //the one that sends payment requests is the invited not the buyer, and its always the userB
 
-		return signature;
+			const channelState = {
+				balanceA: action.isBuyer
+					? toNano(action.myBalance)
+					: toNano(action.hisBalance),
+				balanceB: action.isBuyer
+					? toNano(action.hisBalance)
+					: toNano(action.myBalance),
+				seqnoA: action.isBuyer ? mySeqno : hisSeqnoFinal,
+				seqnoB: action.isBuyer ? hisSeqnoFinal : mySeqno,
+			};
+
+			if (!(await channel.verifyState(channelState, signature))) {
+				throw new Error('Invalid A signature');
+			}
+
+			console.log('valid signature');
+
+			const newSignature = await channel.signState(channelState);
+			return newSignature; //both users needs to save the signatures whenever the sign, so the channel can be emergency cancelled if they want.
+		} catch (error) {
+			console.log('Cant Perform Action: ', error);
+		}
 	},
 );
 
@@ -171,42 +246,43 @@ export const updateChannel = createAsyncThunk(
 export const verifyState = createAsyncThunk(
 	'Sign payment channel update',
 	async (action: any, thunkAPI: any) => {
-		console.log(action)
-		const channel = thunkAPI.getState().currentChannel;
+		try {
+			console.log(action);
+			const channel = thunkAPI.getState().currentChannel;
 
-		const signature = action.payload.signature;
+			const signature = action.signature;
 
-		const data = await channel.getData();
+			const data = await channel.getData();
 
-		const seqnoA = await data.seqnoA.toString();
-		const seqnoB = await data.seqnoB.toString();
+			const seqnoA = await data.seqnoA.toString();
+			const seqnoB = await data.seqnoB.toString();
 
-		const mySeqno = action.payload.isBuyer ? new BN(seqnoA) : new BN(seqnoB);
-		const hisSeqno = action.payload.isBuyer ? seqnoB : seqnoA;
-		const hisSeqnoString = hisSeqno.toString();
-		const hisSeqnoNumber = (await hisSeqnoString.toNumber()) + 1;
-		const hisSeqnoFinal = new BN(hisSeqnoNumber.toString()); //the one that sends payment requests is the invited not the buyer, and its always the userB
+			const mySeqno = action.isBuyer ? new BN(seqnoA) : new BN(seqnoB);
+			const hisSeqno = action.isBuyer ? seqnoB : seqnoA;
+			const hisSeqnoString = hisSeqno.toString();
+			const hisSeqnoNumber = (await hisSeqnoString.toNumber()) + 1;
+			const hisSeqnoFinal = new BN(hisSeqnoNumber.toString()); //the one that sends payment requests is the invited not the buyer, and its always the userB
 
-		const channelState = {
-			balanceA: action.payload.isBuyer
-				? toNano(action.payload.myBalance)
-				: toNano(action.payload.hisBalance),
-			balanceB: action.payload.isBuyer
-				? toNano(action.payload.hisBalance)
-				: toNano(action.payload.myBalance),
-			seqnoA: action.payload.isBuyer ? mySeqno : hisSeqnoFinal,
-			seqnoB: action.payload.isBuyer ? hisSeqnoFinal : mySeqno,
-		};
+			const channelState = {
+				balanceA: action.isBuyer
+					? toNano(action.myBalance)
+					: toNano(action.hisBalance),
+				balanceB: action.isBuyer
+					? toNano(action.hisBalance)
+					: toNano(action.myBalance),
+				seqnoA: action.isBuyer ? mySeqno : hisSeqnoFinal,
+				seqnoB: action.isBuyer ? hisSeqnoFinal : mySeqno,
+			};
 
-		if (!(await channel.verifyState(channelState, signature))) {
-			throw new Error('Invalid A signature');
-		}
+			if (!(await channel.verifyState(channelState, signature))) {
+				throw new Error('Invalid A signature');
+			}
 
-		if (action.payload.needSign) {
-			const newSignature = await channel.signState(channelState);
-			return newSignature; //both users needs to save the signatures whenever the sign, so the channel can be emergency cancelled if they want.
-		} else {
+			console.log('valid signature');
+
 			return true; // return true if the signature its verified but the user dont want to sign yet
+		} catch (error) {
+			console.log('Cant Perform Action: ', error);
 		}
 	},
 );
@@ -235,8 +311,11 @@ const tonSlice = createSlice({
 				state.connected = true;
 			})
 			.addCase(createPaymentChannel.fulfilled, (state: any, action) => {
-				state.currentChannel = action.payload.channel;
-				state.fromWallet = action.payload.fromWallet;
+				state.currentChannel = action.payload?.channel;
+				state.fromWallet = action.payload?.fromWallet;
+			})
+			.addCase(fetchBalance.fulfilled, (state: any, action) => {
+				state.balance = action.payload?.balance;
 			});
 	},
 });

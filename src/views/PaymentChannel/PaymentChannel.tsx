@@ -280,9 +280,12 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({
 								break;
 							}
 							case 3: {
-								dispatch(
+								const signatureA = async () => {
+									const signature = await dispatch(
 									updateChannel(args),
 								);
+								return signature
+							}
 								break;
 							}
 						}
