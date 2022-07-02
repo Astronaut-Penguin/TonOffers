@@ -6,6 +6,13 @@ import styles from './ConnectWallet.module.css';
 
 // BOOTSTRAP COMPONENTS
 import { Button } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import {
+	disconnectWallet,
+	initSession,
+} from '../../../redux/reducers/ton_payment_reducer/payment_reducer';
+import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 
 // Props
 type ConnectWalletProps = {
@@ -17,25 +24,38 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ open }) => {
 	///////////////
 	// FUNCTIONS //
 	///////////////
-	const connected = false;
+	const { connected, balance, myWalletAddress } = useAppSelector(
+		(state) => state.ton,
+	);
+	const dispatch = useAppDispatch();
+
+	const buttonText = 'Connect Wallet';
+	const address = connected ? 	myWalletAddress!.toString(true, true, true).slice(0, 6) +
+	"..." +
+	myWalletAddress!.toString(true, true, true).slice(42, 48) : "";
+
+
 
 	////////////
 	// RENDER //
 	////////////
 	return (
 		<>
+			<Button className={styles.BalanceButton}>
+				{connected && 'Toncoin balance: ' + balance}
+			</Button>
 			<Button
 				className={styles.ConnectButton}
-				onClick={() => {
-					// if (!connected) {
-					// 	dispatch(connectWallet());
-					// } else {
-					// 	dispatch(disconnectWallet());
-					// }
+				onClick={async () => {
+					if (!connected) {
+						await dispatch(initSession());
+					} else {
+						dispatch(disconnectWallet());
+					}
 				}}
 				aria-expanded={open}
 			>
-				{connected ? '0xoasdoasodpasdpaspd' : 'Connect Wallet'}
+				{connected ? address : buttonText}
 			</Button>
 		</>
 	);
