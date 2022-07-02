@@ -15,7 +15,7 @@ import {
 } from 'react-router-dom';
 
 // Views
-import { Gallery, Publication } from './views';
+import { Gallery, Publication, PaymentChannel } from './views';
 
 // Data JSON7
 import data from '../src/data/data.json';
@@ -54,6 +54,9 @@ const App: React.FC = () => {
 								/>
 							);
 						})}
+
+						{/* PAYMENT CHANNEL */}
+						<Route path="/paymentchannel" element={<PaymentChannel />} />
 					</Switch>
 				</div>
 			</Router>
