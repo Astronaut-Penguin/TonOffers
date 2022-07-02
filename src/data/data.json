@@ -1,0 +1,38 @@
+{
+	"data": [
+		{
+			"activity": "Pixel Artist",
+			"name": "Antiguo Astronauta",
+			"wallet": "",
+            "price": {
+                "min": 100,
+                "max": 1000,
+                "coin": "TON"
+            },
+            "description": "I'm an Pixel Artist, focused on Weapons and Characters.",
+            "images": {
+                "perfil": "./assets/images/Pistol.png",
+                "works":[
+                    "./assets/images/Pistol.png"
+                ]
+            }
+		},
+        {
+			"activity": "Pixel Artist",
+			"name": "Antiguo Astronauta",
+			"wallet": "",
+            "price": {
+                "min": 100,
+                "max": 1000,
+                "coin": "TON"
+            },
+            "description": "I'm an Pixel Artist, focused on Weapons and Characters.",
+            "images": {
+                "perfil": "./assets/images/Pistol.png",
+                "works":[
+                    "./assets/images/Pistol.png"
+                ]
+            }
+		}
+	]
+}
