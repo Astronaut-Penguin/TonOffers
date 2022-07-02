@@ -8,7 +8,7 @@ import styles from './Gallery.module.css';
 import { Card_Gallery } from '../../components';
 
 // DATA
-import data from "../../data/data.json"
+import data from '../../data/data.json';
 
 type GalleryProps = {
 	style?: React.CSSProperties;
@@ -16,16 +16,16 @@ type GalleryProps = {
 
 // Component
 const Gallery: React.FC<GalleryProps> = ({ style }) => {
-	const [selectedFilter,useSelectedFilter] = useState("");
+	const [selectedFilter, useSelectedFilter] = useState('');
 
 	// useSelectedFilter("Vendor") provoca que solo se renderizen los vendor
 	return (
 		<section style={style} className={styles.Container}>
 			<h2 className={styles.Title}>Services Gallery</h2>
-			
+
 			<div className={styles.Container_Cards}>
 				{data.data.map(function (value, i, a) {
-					if(value.profile != selectedFilter && selectedFilter != "") return
+					if (value.profile != selectedFilter && selectedFilter != '') return;
 					return (
 						<Card_Gallery
 							profile={value.profile}
@@ -36,6 +36,7 @@ const Gallery: React.FC<GalleryProps> = ({ style }) => {
 							coin={value.price.coin}
 							description={value.description}
 							image={value.images.perfil}
+							router={value.route}
 						/>
 					);
 				})}
