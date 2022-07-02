@@ -7,7 +7,7 @@ import styles from './Button_Action.module.css';
 type ButtonProps = {
 	style?: React.CSSProperties;
 	text: string;
-	onClick: () => {};
+	onClick: () => void;
 };
 
 const Button_Action: React.FC<ButtonProps> = ({ style, text, onClick }) => {

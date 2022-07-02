@@ -76,8 +76,8 @@ const Publication: React.FC<PublicationProps> = ({
 			<div className={styles.Container_Description}>
 				<h4 className={styles.Title_Description}>Actions</h4>
 				<div className={styles.Container_Button}>
-					<Button_Action text="Create channel" />
-					<Button_Action text="Aprobe payment" />
+					<Button_Action text="Create channel" onClick={() => {}} />
+					<Button_Action text="Aprobe payment" onClick={() => {}} />
 				</div>
 			</div>
 
