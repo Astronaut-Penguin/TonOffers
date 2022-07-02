@@ -1,6 +1,7 @@
 {
 	"data": [
 		{
+            "type": "Freelancer",
 			"activity": "Pixel Artist",
 			"name": "Antiguo Astronauta",
 			"wallet": "",
@@ -18,6 +19,7 @@
             }
 		},
         {
+            "type": "Job",
 			"activity": "Pixel Artist",
 			"name": "Antiguo Astronauta",
 			"wallet": "",
