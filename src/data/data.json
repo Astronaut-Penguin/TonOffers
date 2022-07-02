@@ -15,7 +15,11 @@
             "images": {
                 "perfil": "./assets/images/Astronauta.png",
                 "works":[
-                    "./assets/images/Astronauta_work_1.png"
+                    "./assets/images/Astronauta_work_1.png",
+                    "./assets/images/AA-2.jpeg",
+                    "./assets/images/AA-3.gif",
+                    "./assets/images/AA-4.gif",
+                    "./assets/images/AA-5.jpg"
                 ]
             }
 		},
@@ -53,7 +57,11 @@
             "images": {
                 "perfil": "./assets/images/Pereza.png",
                 "works":[
-                    "./assets/images/Pereza_work_1.webp"
+                    "./assets/images/C-1.jpg",
+                    "./assets/images/C-2.jpg",
+                    "./assets/images/C-3.jpg",
+                    "./assets/images/C-4.jpg",
+                    "./assets/images/C-5.jpg"
                 ]
             }
 		}
