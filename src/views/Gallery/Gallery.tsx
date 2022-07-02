@@ -24,6 +24,7 @@ const Gallery: React.FC<GalleryProps> = ({ style }) => {
 				{data.data.map(function (value, i, a) {
 					return (
 						<Card_Gallery
+							type={value.type}
 							activity={value.activity}
 							name={value.name}
 							min={value.price.min}

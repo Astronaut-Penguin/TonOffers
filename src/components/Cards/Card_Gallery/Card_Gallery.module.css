@@ -58,6 +58,16 @@
 	width: calc(100% - 110px);
 	margin-left: 10px;
 }
+.Title_Type {
+	color: var(--text_light_secondary);
+	text-align: left;
+
+	margin: 2px 0px 0px 0px;
+
+	font-size: 1em;
+	font-weight: 800;
+	line-height: 2em;
+}
 .Title {
 	text-align: left;
 	overflow: hidden;
