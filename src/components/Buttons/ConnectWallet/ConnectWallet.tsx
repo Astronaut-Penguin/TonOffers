@@ -41,9 +41,11 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ open }) => {
 	////////////
 	return (
 		<>
+		{connected && 
 			<Button className={styles.BalanceButton}>
-				{connected && 'Toncoin balance: ' + balance}
+				{'Toncoin balance: ' + balance }
 			</Button>
+			}
 			<Button
 				className={styles.ConnectButton}
 				onClick={async () => {
