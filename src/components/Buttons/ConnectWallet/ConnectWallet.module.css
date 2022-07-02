@@ -17,6 +17,26 @@
 	text-transform: uppercase;
 }
 
+.BalanceButton {
+	/* Style */
+	background: none;
+	border: 2px solid var(--flat-gold);
+	background: #019be9;;
+	border-radius: 37px;
+	/* Size */
+	min-width: 215px;
+	margin: 10px;
+	margin-left: auto;
+	text-align: center;
+	/* Text */
+	font-family: 'Montserrat';
+	font-style: normal;
+	font-weight: 600;
+	font-size: 15px;
+	line-height: 18px;
+	text-transform: uppercase;
+}
+
 .ConnectButton:hover {
 	background: black;
 	border: 2px solid white;
