@@ -4,6 +4,11 @@ import React from 'react';
 // STYLES
 import styles from './Publication.module.css';
 
+// SVG
+import Back from './assets/backspace.svg';
+
+import { useNavigate } from 'react-router-dom';
+
 type PublicationProps = {
 	style?: React.CSSProperties;
 	profile: string;
@@ -29,8 +34,18 @@ const Publication: React.FC<PublicationProps> = ({
 	image,
 	images,
 }) => {
+	const navigate = useNavigate();
+
 	return (
 		<section style={style} className={styles.Container}>
+			<button
+				className={styles.Back}
+				onClick={() => {
+					navigate('/');
+				}}
+			>
+				<img src={Back} alt="" />
+			</button>
 			<h2 className={styles.Title}>Publication</h2>
 
 			<div className={styles.Container_Gral}>
