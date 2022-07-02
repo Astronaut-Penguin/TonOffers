@@ -1,6 +1,7 @@
 {
 	"data": [
 		{
+            "route":"antiguoastronauta",
             "profile": "Freelancer",
 			"activity": "Pixel Artist",
 			"name": "Antiguo Astronauta",
@@ -19,6 +20,7 @@
             }
 		},
         {
+            "route":"pinguinista",
             "profile": "Job",
 			"activity": "Hiring pixel artists",
 			"name": "Pinguinista",
@@ -37,6 +39,7 @@
             }
 		},
         {
+            "route":"pereza",
             "profile": "Vendor",
 			"activity": "Cofee seller",
 			"name": "Daily Cofee",
