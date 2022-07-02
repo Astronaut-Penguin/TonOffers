@@ -8,3 +8,6 @@ export { default as Gallery } from './Gallery/Gallery';
 
 // Publication
 export { default as Publication } from './Publication/Publication';
+
+// PAYMENT CHANNEL
+export { default as PaymentChannel } from './PaymentChannel/PaymentChannel';
