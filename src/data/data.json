@@ -1,7 +1,7 @@
 {
 	"data": [
 		{
-            "type": "Freelancer",
+            "profile": "Freelancer",
 			"activity": "Pixel Artist",
 			"name": "Antiguo Astronauta",
 			"wallet": "",
@@ -12,27 +12,45 @@
             },
             "description": "I'm an Pixel Artist, focused on Weapons and Characters.",
             "images": {
-                "perfil": "./assets/images/Pistol.png",
+                "perfil": "./assets/images/Astronauta.png",
                 "works":[
-                    "./assets/images/Pistol.png"
+                    "./assets/images/Astronauta_work_1.png"
                 ]
             }
 		},
         {
-            "type": "Job",
-			"activity": "Pixel Artist",
-			"name": "Antiguo Astronauta",
+            "profile": "Job",
+			"activity": "Hiring pixel artists",
+			"name": "Pinguinista",
 			"wallet": "",
             "price": {
-                "min": 100,
-                "max": 1000,
+                "min": 15,
+                "max": 90,
                 "coin": "TON"
             },
-            "description": "I'm an Pixel Artist, focused on Weapons and Characters.",
+            "description": "I´m the CTO of an independent development group, looking for pixel artist´s",
             "images": {
-                "perfil": "./assets/images/Pistol.png",
+                "perfil": "./assets/images/Pinguinista.png",
                 "works":[
-                    "./assets/images/Pistol.png"
+                    "./assets/images/Pinguinista_work_1.png"
+                ]
+            }
+		},
+        {
+            "profile": "Vendor",
+			"activity": "Cofee seller",
+			"name": "Daily Cofee",
+			"wallet": "",
+            "price": {
+                "min": 2,
+                "max": 4,
+                "coin": "TON"
+            },
+            "description": "I sell cheap daily coffe for commited programmers, with a discount if they are coding for a hackaton",
+            "images": {
+                "perfil": "./assets/images/Pereza.png",
+                "works":[
+                    "./assets/images/Pereza_work_1.webp"
                 ]
             }
 		}

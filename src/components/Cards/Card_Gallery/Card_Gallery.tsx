@@ -10,7 +10,7 @@ import Arrow from './assets/arrow.svg';
 type CardGalleryProps = {
 	style?: React.CSSProperties;
 
-	type: string;
+	profile: string;
 	activity: string;
 	name: string;
 	min: number;
@@ -22,7 +22,7 @@ type CardGalleryProps = {
 
 const Card_Gallery: React.FC<CardGalleryProps> = ({
 	style,
-	type,
+	profile,
 	activity,
 	name,
 	min,
@@ -36,7 +36,7 @@ const Card_Gallery: React.FC<CardGalleryProps> = ({
 	////////////
 	return (
 		<button className={styles.Container_Card}>
-			<p className={styles.Title_Type}>{type}</p>
+			<p className={styles.Title_Type}>{profile}</p>
 			<div className={styles.Container_First}>
 				<div className={styles.Container_Img}>
 					<img src={image} alt="User Image" />
