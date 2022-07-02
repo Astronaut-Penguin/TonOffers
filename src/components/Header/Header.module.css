@@ -1,0 +1,108 @@
+/* //////////// */
+/* MOBILE FIRST */
+/* //////////// */
+
+/* PRINCIPAL CONTAINER */
+.Header {
+	background-color: var(--background_dark_main);
+	flex-direction: 'column';
+	align-items: 'center';
+}
+
+/* CONTAINERS */
+.Container {
+	padding-left: 27px;
+	padding-right: 27px;
+	text-align: center;
+}
+
+/* 888888888888888888888888888888888888888888 */
+
+.Nav > a {
+	padding-left: 25px !important;
+	font-family: 'Montserrat';
+	font-style: normal;
+	font-weight: 700;
+	font-size: 15px;
+	line-height: 18px;
+	text-align: left;
+	color: var(--text-color) !important;
+}
+
+.Nav > a:hover {
+	color: var(--flat-gold) !important;
+	text-decoration: none;
+}
+
+/* 888888888888888888888888888888888888888888 */
+
+/* BRAND */
+.Brand {
+	width: 152px;
+	height: 18px;
+
+	font-weight: 600;
+}
+
+.Logo {
+	width: 45px;
+	height: 45px;
+
+	margin-right: 10px;
+}
+
+/* 888888888888888888888888888888888888888888 */
+
+/* BUTTONS */
+.Button,
+.Button:hover,
+.Button:focus,
+.Button:active:focus {
+	border: none;
+	background: none;
+	box-shadow: none;
+}
+
+.Button > img {
+	fill: var(--default_white);
+}
+
+/* 888888888888888888888888888888888888888888 */
+/* 888888888888888888888888888888888888888888 */
+/* 888888888888888888888888888888888888888888 */
+
+/* TABLET VIEW */
+
+@media screen and (min-width: 767px) {
+	.Brand {
+		width: 260px;
+		height: 30px;
+	}
+}
+
+/* 888888888888888888888888888888888888888888 */
+/* 888888888888888888888888888888888888888888 */
+/* 888888888888888888888888888888888888888888 */
+
+/* PC */
+@media screen and (min-width: 992px) {
+	.Nav {
+		flex-direction: row;
+	}
+
+	.Nav > a {
+		padding-left: 0px !important;
+		padding: 10px !important;
+		font-family: 'Montserrat';
+		font-style: normal;
+		font-weight: 700;
+		font-size: 15px;
+		line-height: 18px;
+		color: grey !important;
+		transition: all 200ms;
+	}
+
+	.Nav > a:hover {
+		color: var(--flat-gold) !important;
+	}
+}

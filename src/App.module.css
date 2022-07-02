@@ -1,0 +1,16 @@
+/* //////////// */
+/* MOBILE FIRST */
+/* //////////// */
+
+/* CONTAINER */
+.Container_App {
+	display: flex;
+	justify-content: center;
+
+	width: 100%;
+	min-height: 100vh;
+	margin: 0;
+	padding-top: 100px;
+
+	background-color: var(--background_light_gradient);
+}
