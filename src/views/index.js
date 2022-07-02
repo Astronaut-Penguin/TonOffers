@@ -5,3 +5,6 @@ export { default as Disconnected_Main_View } from './Disconnected/Disconnected_M
 
 // GALLERY
 export { default as Gallery } from './Gallery/Gallery';
+
+// Publication
+export { default as Publication } from './Publication/Publication';

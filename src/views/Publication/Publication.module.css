@@ -1,0 +1,252 @@
+/* //////////// */
+/* MOBILE FIRST */
+/* //////////// */
+
+/* CONTAINER */
+.Container {
+	display: inline-block;
+	width: 100%;
+	max-width: 1280px;
+	padding: 20px;
+}
+
+/* 888888888888888888888888888888888 */
+
+.Title {
+	font-weight: 700;
+}
+
+/* 888888888888888888888888888888888 */
+
+.Container_Gral {
+	display: flex;
+	flex-direction: column;
+}
+
+/* 888888888888888888888888888888888 */
+
+.Container_Profile {
+	display: flex;
+	width: 100%;
+	padding: 20px;
+}
+
+/* 888888888888888888888888888888 */
+/* PROFILE CONTENT */
+/* IMG */
+.Container_Img {
+	display: flex;
+	width: 165px;
+	height: 165px;
+	border-radius: 15px;
+	overflow: hidden;
+}
+
+.Container_Img > img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* 888888888888888888888888888888 */
+/* CARD CONTENT */
+.Container_Content {
+	display: flex;
+	flex-direction: column;
+
+	width: calc(100% - 110px);
+	margin-left: 10px;
+}
+.Title_Type {
+	color: var(--text_light_secondary);
+	text-align: left;
+
+	margin: 2px 0px 0px 0px;
+
+	font-size: 1em;
+	font-weight: 800;
+	line-height: 2em;
+}
+.Title {
+	text-align: left;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+
+	font-size: 1.5em;
+	font-weight: 700;
+	line-height: 1em;
+}
+.Name {
+	color: var(--text_light_secondary);
+	text-align: left;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+
+	font-size: 1.1em;
+	font-weight: 700;
+	line-height: 1.2em;
+}
+
+/* 888888888888888888888888888888 */
+
+.Title_Price {
+	color: var(--text_light_secondary);
+	text-align: left;
+
+	margin: 2px 0px 0px 0px;
+
+	font-size: 1em;
+	font-weight: 800;
+	line-height: 1em;
+}
+.Price {
+	text-align: left;
+	overflow: hidden;
+	text-overflow: ellipsis;
+
+	font-size: 1.1em;
+	font-weight: 800;
+	line-height: 1em;
+}
+
+/* 888888888888888888888888888888 */
+.Container_Description {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	padding: 20px;
+}
+
+.Title_Description {
+	color: var(--text_light_secondary);
+	text-align: left;
+	overflow: hidden;
+	text-overflow: ellipsis;
+
+	margin: 2px 0px 0px 0px;
+
+	font-size: 1em;
+	font-weight: 800;
+	line-height: 1em;
+}
+
+.Description {
+	text-align: left;
+	overflow: hidden;
+	text-overflow: ellipsis;
+
+	margin: 10px 0px 0px 0px;
+
+	font-size: 1em;
+	font-weight: 400;
+	line-height: 1em;
+}
+
+/* 888888888888888888888888888888888 */
+
+.Button_Telegram {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	max-width: 150px;
+	height: 50px;
+	color: var(--default_white);
+	background-color: var(--button_dark_primary);
+	border-radius: 15px;
+
+	text-decoration: none;
+	cursor: pointer;
+}
+.Button_Telegram:hover {
+	color: var(--default_white);
+	background-color: var(--button_dark_primary_hover);
+}
+.Button_Telegram:active:focus {
+	color: var(--default_white);
+	background-color: var(--button_dark_primary_pressed);
+}
+.Button_Telegram:focus {
+	color: var(--default_white);
+	background-color: var(--button_dark_primary_pressed);
+}
+
+/* 888888888888888888888888888888888 */
+
+/* CONTAINER CARDS */
+.Container_Cards {
+	display: inline-block;
+	width: 100%;
+	margin-bottom: 50px;
+}
+
+/* 888888888888888888888888888888888 */
+
+/* ACTION BUTTONS */
+.Container_Button {
+	display: flex;
+}
+
+.Button_Action {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	max-width: 150px;
+	height: 50px;
+	color: var(--default_white);
+	background-color: var(--button_light_primary);
+	border-radius: 15px;
+	margin: 10px;
+
+	text-decoration: none;
+	cursor: pointer;
+}
+.Button_Action:hover {
+	color: var(--default_white);
+	background-color: var(--button_light_primary_hover);
+}
+.Button_Action:active:focus {
+	color: var(--default_white);
+	background-color: var(--button_light_primary_pressed);
+}
+.Button_Action:focus {
+	color: var(--default_white);
+	background-color: var(--button_light_primary_pressed);
+}
+.Button_Action:focus-visible:focus-within {
+	color: var(--default_white);
+	background-color: var(--button_light_primary_pressed);
+	outline: none;
+}
+
+/* 88888888888888888888888888888888 */
+/* 88888888888888888888888888888888 */
+/* 88888888888888888888888888888888 */
+/* ////// */
+/* TABLET */
+/* ////// */
+
+@media screen and (min-width: 768px) {
+	/* 88888888888888888888888888888888 */
+	.Container_Gral {
+		display: flex;
+		flex-direction: row;
+	}
+	/* 888888888888888888888888888888 */
+	.Container_Profile {
+		width: 50%;
+	}
+	/* 888888888888888888888888888888 */
+	/* CARD CONTENT */
+	.Container_Content {
+		width: calc(100% - (110px / 2));
+	}
+	/* 888888888888888888888888888888 */
+	.Container_Description {
+		width: 50%;
+	}
+	/* 888888888888888888888888888888 */
+}
