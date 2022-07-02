@@ -36,13 +36,15 @@ const Publication: React.FC<PublicationProps> = ({
 			<div className={styles.Container_Gral}>
 				<div className={styles.Container_Profile}>
 					<div className={styles.Container_Img}>
-						<img src={image} alt="User Image" />
+						<img src={'.' + image} alt="User Image" />
 					</div>
 					<div className={styles.Container_Content}>
 						<h3 className={styles.Title}>{activity}</h3>
 						<h4 className={styles.Name}>{name}</h4>
 						<h4 className={styles.Title_Price}>Price Range / Day</h4>
-						<p className={styles.Price}>{min} - {max} {coin}</p>
+						<p className={styles.Price}>
+							{min} - {max} {coin}
+						</p>
 						<a className={styles.Button_Telegram}>Telegram</a>
 					</div>
 				</div>
