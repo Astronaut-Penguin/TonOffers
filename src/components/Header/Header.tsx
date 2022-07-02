@@ -59,11 +59,7 @@ const Header: React.FC<HeaderProps> = ({ style }) => {
 							navigate('/');
 						}}
 					>
-<<<<<<< Updated upstream
-						<img alt="TON Workers" src={Logo} className={styles.Logo} />
-=======
 						<img alt="TON Offers" src={Logo} className={styles.Logo} />
->>>>>>> Stashed changes
 						<span className={styles.Brand}>TON Offers</span>
 					</Navbar.Brand>
 					{size < 992 ? (

@@ -25,11 +25,9 @@ type PublicationProps = {
 	description: string;
 	image: string;
 	images: string[];
-<<<<<<< Updated upstream
 	telegram: string;
 	route: string;
 	publicKey: string;
->>>>>>> Stashed changes
 };
 
 const Publication: React.FC<PublicationProps> = ({
@@ -43,12 +41,8 @@ const Publication: React.FC<PublicationProps> = ({
 	description,
 	image,
 	images,
-<<<<<<< Updated upstream
-	telegram,
-=======
 	route,
 	publicKey
->>>>>>> Stashed changes
 }) => {
 	const navigate = useNavigate();
 
