@@ -5,6 +5,7 @@
             "profile": "Freelancer",
 			"activity": "Pixel Artist",
 			"name": "Antiguo Astronauta",
+            "telegram": "https://t.me/AntiguoAstronauta",
 			"wallet": "",
             "price": {
                 "min": 100,
@@ -28,6 +29,7 @@
             "profile": "Job",
 			"activity": "Hiring pixel artists",
 			"name": "Pinguinista",
+            "telegram": "https://t.me/opensourcepenguin",
 			"wallet": "",
             "price": {
                 "min": 15,
@@ -38,7 +40,7 @@
             "images": {
                 "perfil": "./assets/images/Pinguinista.png",
                 "works":[
-                    "./assets/images/Pinguinista_work_1.png"
+                    "./assets/images/P.jpg"
                 ]
             }
 		},
@@ -47,6 +49,7 @@
             "profile": "Vendor",
 			"activity": "Cofee seller",
 			"name": "Pereza Coffe Store",
+            "telegram": "https://t.me/AntiguoAstronauta",
 			"wallet": "",
             "price": {
                 "min": 2,

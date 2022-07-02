@@ -25,6 +25,7 @@ type PublicationProps = {
 	description: string;
 	image: string;
 	images: string[];
+	telegram: string;
 };
 
 const Publication: React.FC<PublicationProps> = ({
@@ -38,6 +39,7 @@ const Publication: React.FC<PublicationProps> = ({
 	description,
 	image,
 	images,
+	telegram,
 }) => {
 	const navigate = useNavigate();
 
@@ -64,7 +66,11 @@ const Publication: React.FC<PublicationProps> = ({
 						<p className={styles.Price}>
 							{min} - {max} {coin}
 						</p>
-						<a className={styles.Button_Telegram}>
+						<a
+							className={styles.Button_Telegram}
+							href={telegram}
+							target="_blank"
+						>
 							<i className="bi bi-send" style={{ marginRight: '5px' }} />{' '}
 							Telegram
 						</a>
