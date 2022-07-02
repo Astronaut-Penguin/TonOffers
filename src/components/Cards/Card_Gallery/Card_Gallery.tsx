@@ -7,6 +7,9 @@ import styles from './Card_Gallery.module.css';
 // ICONS
 import Arrow from './assets/arrow.svg';
 
+// REAC ROUTER DOM
+import { useNavigate } from 'react-router-dom';
+
 type CardGalleryProps = {
 	style?: React.CSSProperties;
 
@@ -18,6 +21,8 @@ type CardGalleryProps = {
 	coin: string;
 	description: string;
 	image: string;
+
+	router: string;
 };
 
 const Card_Gallery: React.FC<CardGalleryProps> = ({
@@ -30,12 +35,20 @@ const Card_Gallery: React.FC<CardGalleryProps> = ({
 	coin,
 	description,
 	image,
+	router,
 }) => {
+	const navigate = useNavigate();
+
 	////////////
 	// RENDER //
 	////////////
 	return (
-		<button className={styles.Container_Card}>
+		<button
+			className={styles.Container_Card}
+			onClick={() => {
+				navigate('/publication/' + router);
+			}}
+		>
 			<p className={styles.Title_Type}>{profile}</p>
 			<div className={styles.Container_First}>
 				<div className={styles.Container_Img}>
