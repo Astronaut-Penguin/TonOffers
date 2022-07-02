@@ -43,6 +43,7 @@ const App: React.FC = () => {
 											profile={value.profile}
 											activity={value.activity}
 											name={value.name}
+											telegram={value.telegram}
 											min={value.price.min}
 											max={value.price.max}
 											coin={value.price.coin}

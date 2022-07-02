@@ -5,12 +5,14 @@ import React from 'react';
 import styles from './Publication.module.css';
 
 // SVG
-import Back from './assets/backspace.svg';
+import Back from './assets/back.svg';
 
 // Components
 import { Button_Action } from '../../components';
 
 import { useNavigate } from 'react-router-dom';
+
+import Flicking from '@egjs/react-flicking';
 
 type PublicationProps = {
 	style?: React.CSSProperties;
@@ -23,6 +25,7 @@ type PublicationProps = {
 	description: string;
 	image: string;
 	images: string[];
+	telegram: string;
 };
 
 const Publication: React.FC<PublicationProps> = ({
@@ -36,6 +39,7 @@ const Publication: React.FC<PublicationProps> = ({
 	description,
 	image,
 	images,
+	telegram,
 }) => {
 	const navigate = useNavigate();
 
@@ -50,7 +54,6 @@ const Publication: React.FC<PublicationProps> = ({
 				<img src={Back} alt="" />
 			</button>
 			<h2 className={styles.Title}>Publication</h2>
-
 			<div className={styles.Container_Gral}>
 				<div className={styles.Container_Profile}>
 					<div className={styles.Container_Img}>
@@ -63,7 +66,14 @@ const Publication: React.FC<PublicationProps> = ({
 						<p className={styles.Price}>
 							{min} - {max} {coin}
 						</p>
-						<a className={styles.Button_Telegram}>Telegram</a>
+						<a
+							className={styles.Button_Telegram}
+							href={telegram}
+							target="_blank"
+						>
+							<i className="bi bi-send" style={{ marginRight: '5px' }} />{' '}
+							Telegram
+						</a>
 					</div>
 				</div>
 
@@ -72,20 +82,30 @@ const Publication: React.FC<PublicationProps> = ({
 					<p className={styles.Description}>{description}</p>
 				</div>
 			</div>
-
 			<div className={styles.Container_Description}>
 				<h4 className={styles.Title_Description}>Actions</h4>
 				<div className={styles.Container_Button}>
 					<Button_Action
-						text="Payment Channels"
+						text={'Payment Channels'}
 						onClick={() => {
 							navigate('/paymentchannel');
 						}}
 					/>
 				</div>
 			</div>
-
-			<div className={styles.Container_Cards}></div>
+			<div className={styles.Container_Gallery}>
+				<h4
+					className={styles.Title_Description}
+					style={{ marginBottom: '10px' }}
+				>
+					Image Gallery
+				</h4>
+				<Flicking circular={true} autoResize={true}>
+					{images.map(function (value, i, a) {
+						return <img className={styles.Image} src={'.' + value} alt="" />;
+					})}
+				</Flicking>
+			</div>
 		</section>
 	);
 };

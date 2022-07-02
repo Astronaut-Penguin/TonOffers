@@ -60,7 +60,7 @@ const Header: React.FC<HeaderProps> = ({ style }) => {
 						}}
 					>
 						<img alt="TON Workers" src={Logo} className={styles.Logo} />
-						<span className={styles.Brand}>TON Workers</span>
+						<span className={styles.Brand}>TON Offers</span>
 					</Navbar.Brand>
 					{size < 992 ? (
 						<>

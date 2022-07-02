@@ -5,6 +5,7 @@
             "profile": "Freelancer",
 			"activity": "Pixel Artist",
 			"name": "Antiguo Astronauta",
+            "telegram": "https://t.me/AntiguoAstronauta",
 			"wallet": "",
             "price": {
                 "min": 100,
@@ -15,7 +16,11 @@
             "images": {
                 "perfil": "./assets/images/Astronauta.png",
                 "works":[
-                    "./assets/images/Astronauta_work_1.png"
+                    "./assets/images/Astronauta_work_1.png",
+                    "./assets/images/AA-2.jpeg",
+                    "./assets/images/AA-3.gif",
+                    "./assets/images/AA-4.gif",
+                    "./assets/images/AA-5.jpg"
                 ]
             }
 		},
@@ -24,6 +29,7 @@
             "profile": "Job",
 			"activity": "Hiring pixel artists",
 			"name": "Pinguinista",
+            "telegram": "https://t.me/opensourcepenguin",
 			"wallet": "",
             "price": {
                 "min": 15,
@@ -34,7 +40,7 @@
             "images": {
                 "perfil": "./assets/images/Pinguinista.png",
                 "works":[
-                    "./assets/images/Pinguinista_work_1.png"
+                    "./assets/images/P.jpg"
                 ]
             }
 		},
@@ -43,6 +49,7 @@
             "profile": "Vendor",
 			"activity": "Cofee seller",
 			"name": "Pereza Coffe Store",
+            "telegram": "https://t.me/AntiguoAstronauta",
 			"wallet": "",
             "price": {
                 "min": 2,
@@ -53,7 +60,11 @@
             "images": {
                 "perfil": "./assets/images/Pereza.png",
                 "works":[
-                    "./assets/images/Pereza_work_1.webp"
+                    "./assets/images/C-1.jpg",
+                    "./assets/images/C-2.jpg",
+                    "./assets/images/C-3.jpg",
+                    "./assets/images/C-4.jpg",
+                    "./assets/images/C-5.jpg"
                 ]
             }
 		}
