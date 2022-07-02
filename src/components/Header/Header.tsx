@@ -14,6 +14,9 @@ import Logo from './assets/Logo.svg';
 import Burger from './assets/Burger.svg';
 import Cross from './assets/Cross.svg';
 
+// REAC ROUTER DOM
+import { useNavigate } from 'react-router-dom';
+
 // Props
 type HeaderProps = {
 	style?: React.CSSProperties;
@@ -35,6 +38,8 @@ const Header: React.FC<HeaderProps> = ({ style }) => {
 		});
 	}, []);
 
+	const navigate = useNavigate();
+
 	////////////
 	// RENDER //
 	////////////
@@ -48,7 +53,12 @@ const Header: React.FC<HeaderProps> = ({ style }) => {
 				className={styles.Header}
 			>
 				<Container className={styles.Container}>
-					<Navbar.Brand href="#home">
+					<Navbar.Brand
+						href=""
+						onClick={() => {
+							navigate('/');
+						}}
+					>
 						<img alt="TON Workers" src={Logo} className={styles.Logo} />
 						<span className={styles.Brand}>TON Workers</span>
 					</Navbar.Brand>
