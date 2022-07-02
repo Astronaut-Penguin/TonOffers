@@ -12,6 +12,8 @@
 
 	text-decoration: none;
 	cursor: pointer;
+
+	border: 1px var(--button_light_secondary) solid;
 }
 .Button_Action:hover {
 	color: var(--default_white);
