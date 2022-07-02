@@ -1,0 +1,30 @@
+/* //////////// */
+/* MOBILE FIRST */
+/* //////////// */
+
+/* CONTAINER */
+.Container {
+	display: inline-block;
+	width: 100%;
+	max-width: 1280px;
+	padding: 20px;
+}
+
+/* 888888888888888888888888888888888 */
+
+.Title {
+	font-weight: 700;
+}
+
+/* 888888888888888888888888888888888 */
+
+/* CONTAINER CARDS */
+.Container_Cards {
+	display: inline-block;
+	width: 100%;
+	margin-bottom: 50px;
+}
+
+/* 88888888888888888888888888888888 */
+/* 88888888888888888888888888888888 */
+/* 88888888888888888888888888888888 */

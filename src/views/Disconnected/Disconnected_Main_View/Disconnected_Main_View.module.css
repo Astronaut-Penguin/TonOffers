@@ -1,0 +1,14 @@
+/* //////////// */
+/* MOBILE FIRST */
+/* //////////// */
+
+/* CONTAINER */
+.Container {
+	display: flex;
+	flex-direction: column;
+
+	width: 100%;
+	max-width: 1000px;
+
+	background-color: red;
+}
