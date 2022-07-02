@@ -1,0 +1,182 @@
+/* //////////// */
+/* MOBILE FIRST */
+/* //////////// */
+
+/* 888888888888888888888888888888 */
+
+/* CONTAINER */
+.Container_Card {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+
+	width: 100%;
+	padding: 20px;
+	margin: 20px 0px;
+
+	/* style */
+	background-color: var(--button_light_secondary);
+	-webkit-box-shadow: 2px 2px 10px 1px rgba(0, 0, 0, 0.3);
+	box-shadow: 2px 2px 10px 1px rgba(0, 0, 0, 0.3);
+	border-radius: 5px;
+	transition: all 500ms ease-in-out;
+	cursor: pointer;
+}
+
+.Container_Card:hover {
+	background-color: var(--button_light_secondary);
+	-webkit-box-shadow: 2px 2px 10px 1px rgba(0, 0, 0, 0.3);
+	box-shadow: 2px 2px 10px 1px rgba(0, 0, 0, 0.3);
+	transform: scale(1.02);
+}
+
+.Container_First {
+	display: flex;
+}
+
+/* 888888888888888888888888888888 */
+/* CARD CONTENT */
+/* IMG */
+.Container_Img {
+	display: flex;
+	width: 80px;
+	height: 120px;
+}
+
+.Container_Img > img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* 888888888888888888888888888888 */
+/* CARD CONTENT */
+.Container_Content {
+	display: flex;
+	flex-direction: column;
+
+	width: calc(100% - 110px);
+	margin-left: 10px;
+}
+.Title {
+	text-align: left;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+
+	font-size: 1.5em;
+	font-weight: 700;
+	line-height: 1em;
+}
+.Name {
+	color: var(--text_light_secondary);
+	text-align: left;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+
+	font-size: 1.1em;
+	font-weight: 700;
+	line-height: 1.2em;
+}
+
+/* 888888888888888888888888888888 */
+
+.Title_Price {
+	color: var(--text_light_secondary);
+	text-align: left;
+
+	margin: 2px 0px 0px 0px;
+
+	font-size: 1em;
+	font-weight: 800;
+	line-height: 1em;
+}
+.Price {
+	text-align: left;
+	overflow: hidden;
+	text-overflow: ellipsis;
+
+	height: 40px;
+
+	font-size: 1.1em;
+	font-weight: 800;
+	line-height: 1em;
+}
+
+/* 888888888888888888888888888888 */
+
+.Title_Description {
+	color: var(--text_light_secondary);
+	text-align: left;
+	overflow: hidden;
+	text-overflow: ellipsis;
+
+	margin: 2px 0px 0px 0px;
+
+	font-size: 1em;
+	font-weight: 800;
+	line-height: 1em;
+}
+
+.Description {
+	text-align: left;
+	overflow: hidden;
+	text-overflow: ellipsis;
+
+	height: 80px;
+	margin: 10px 0px 0px 0px;
+
+	font-size: 1em;
+	font-weight: 400;
+	line-height: 1em;
+}
+
+/* 888888888888888888888888888888 */
+
+.Arrow {
+	position: absolute;
+	width: 30px;
+	height: 30px;
+
+	top: calc(50% - 15px);
+	right: 10px;
+}
+
+/* 888888888888888888888888888888 */
+/* 888888888888888888888888888888 */
+/* 888888888888888888888888888888 */
+
+/* ////////// */
+/* MOBILE MID */
+/* ////////// */
+
+@media screen and (min-width: 375px) {
+	/* 888888888888888888888888888888 */
+	/* CARD CONTENT */
+	/* IMG */
+	.Container_Img {
+		width: 120px;
+	}
+	/* 888888888888888888888888888888 */
+}
+
+/* 888888888888888888888888888888 */
+/* 888888888888888888888888888888 */
+/* 888888888888888888888888888888 */
+
+/* // */
+/* PC */
+/* // */
+
+@media screen and (min-width: 1024px) {
+	/* 888888888888888888888888888888 */
+	/* CONTAINER */
+	.Container_Card {
+		display: inline-block;
+		width: calc(33% - 40px);
+		padding: 20px;
+		margin: 20px;
+	}
+	/* 888888888888888888888888888888 */
+}
