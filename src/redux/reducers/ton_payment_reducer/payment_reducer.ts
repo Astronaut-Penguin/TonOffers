@@ -33,9 +33,12 @@ export const connectWallet = createAsyncThunk(
 		const myWalletAddress = await myWallet.getAddress(); // address of this wallet in blockchain
 		console.log('walletAddress = ', myWalletAddress.toString(true, true, true));
 
+        const balance = await tonweb.getBalance(myWalletAddress)
+
 		return {
 			myWalletAddress: myWalletAddress,
 			myKeyPair: myKeyPair,
+            balance: balance
 		};
 	},
 );
@@ -98,10 +101,34 @@ export const createPaymentChannel = createAsyncThunk(
         }
 
 		return {
-			currentChannelConfig: channelConfig,
 			currentChannel: channel,
             fromWallet: fromWallet,
 		};
+	},
+);
+
+export const updateChannel = createAsyncThunk(
+	'Update payment channel and sign',
+	async (action: any, thunkAPI: any) => {
+		const channel = thunkAPI.getState().currentChannel;
+
+        const data = await channel.getData();
+
+        const seqnoBString = await data.seqnoB.toString();
+        const seqnoBNumber = await seqnoBString.toNumber() + 1;
+        const seqnoA = new BN(data.seqnoA.toString());
+        const seqnoB = new BN(seqnoBNumber.toString()); //the one that sends payment requests is the invited not the contractor, and its always the userB
+
+		const channelState = {
+			balanceA: toNano(action.payload.contractorBalance),
+			balanceB: toNano(action.payload.invitedBalance),
+			seqnoA: seqnoA,
+			seqnoB: seqnoB,
+		};
+
+		const signature = await channel.signState(channelState);
+
+        return signature;
 	},
 );
 
@@ -141,42 +168,16 @@ export const verifyState = createAsyncThunk(
 	},
 );
 
-export const updateChannel = createAsyncThunk(
-	'Update payment channel and sign',
-	async (action: any, thunkAPI: any) => {
-		const channel = thunkAPI.getState().currentChannel;
-
-        const data = await channel.getData();
-
-        const seqnoBString = await data.seqnoB.toString();
-        const seqnoBNumber = await seqnoBString.toNumber() + 1;
-        const seqnoA = new BN(data.seqnoA.toString());
-        const seqnoB = new BN(seqnoBNumber.toString()); //the one that sends payment requests is the invited not the contractor, and its always the userB
-
-		const channelState = {
-			balanceA: toNano(action.payload.contractorBalance),
-			balanceB: toNano(action.payload.invitedBalance),
-			seqnoA: seqnoA,
-			seqnoB: seqnoB,
-		};
-
-		const signature = await channel.signState(channelState);
-
-        return signature;
-	},
-);
-
 const tonSlice = createSlice({
 	name: 'tonReducer',
 	initialState: {
-		totalSupply: 0,
 		balance: 0,
-		enabled: <null | boolean>null,
-		myWalletAddress: <null | string>null,
-		hisAddress: <null | any>null,
+		enabled: <null | boolean> null,
+		myWalletAddress: <null | string> null,
 		myKeyPair: <null | any> null,
 		tonweb: <null | TonWeb> null,
-        fromWallet: <null | any> null
+        fromWallet: <null | any> null,
+        currentChannel: <null | any> null,
 	},
 	reducers: {
 		disconnectWallet: (state: any) => {
@@ -194,9 +195,9 @@ const tonSlice = createSlice({
 			.addCase(connectWallet.fulfilled, (state, action) => {
 				state.myKeyPair = action.payload.myKeyPair;
 				state.myWalletAddress = action.payload.myWalletAddress;
+                state.balance = action.payload.balance;
 			})
 			.addCase(createPaymentChannel.fulfilled, (state: any, action) => {
-				state.currentChannelConfig = action.payload.currentChannelConfig;
 				state.currentChannel = action.payload.currentChannel;
                 state.fromWallet = action.payload.fromWallet;
 			});
