@@ -120,7 +120,11 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({
 	};
 
 	// Tutorial
+	const [tutorialShowed,setTutorialShowed] = useState(false)
+
+	if(!tutorialShowed)
 	setTimeout(() => {
+		setTutorialShowed(true)
 		Store.addNotification({
 			title: 'Welcome to the payment section',
 			message:
@@ -413,7 +417,7 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({
 										},
 									},
 								});
-								dispatch(updateChannel(args));
+								//dispatch(updateChannel(args));
 								break;
 							}
 						}
