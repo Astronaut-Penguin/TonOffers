@@ -62,8 +62,8 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({
 	// STATES
 	// User Data for Register
 	const [data, setData] = useState({
-		type: 1,
-		typeTx: 1,
+		type: "1",
+		typeTx: "1",
 		my: '',
 		his: '',
 		myBalance: 0,
@@ -115,7 +115,7 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({
 
 		setData({
 			...data,
-			[e.target.name]: value,
+			typeTx: value,
 		});
 	};
 
@@ -286,7 +286,7 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({
 				<Button_Action
 					text="Send"
 					onClick={() => {
-						const isBuyer = type == 1 ? true : false;
+						const isBuyer = type == "1" ? true : false;
 						const args = {
 							myPublicKey,
 							hisPublicKey,
@@ -298,7 +298,7 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({
 							channelNumber,
 						};
 						switch (data.typeTx) {
-							case 1: {
+							case "1": {
 								Store.addNotification({
 									title: 'Wonderful!',
 									message:
@@ -328,7 +328,7 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({
 								dispatch(createPaymentChannel(args));
 								break;
 							}
-							case 2: {
+							case "2": {
 								Store.addNotification({
 									title: 'Wonderful!',
 									message: 'The signature its verified successfully',
@@ -357,7 +357,7 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({
 								dispatch(verifyState(args));
 								break;
 							}
-							case 3: {
+							case "3": {
 								Store.addNotification({
 									title: 'Wonderful!',
 									message: 'The channel its updated your signature is:',
