@@ -22,6 +22,8 @@ type PaymentChannelProps = {
 	hisPublicKey: string;
 };
 
+import { Store } from 'react-notifications-component';
+
 ////////////////////
 // COMPONENT VIEW //
 ////////////////////
@@ -117,6 +119,35 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({
 		});
 	};
 
+	// Tutorial
+	setTimeout(() => {
+		Store.addNotification({
+			title: 'Welcome to the payment section',
+			message:
+				'Here you can choose if you are the buyer or the seller, and create, update, verify and close channels',
+			type: 'info',
+			insert: 'top',
+			container: 'top-center',
+			animationIn: ['animate__animated', 'animate__fadeIn'],
+			animationOut: ['animate__animated', 'animate__fadeOut'],
+			dismiss: {
+				duration: 10000,
+				onScreen: true,
+			},
+			touchSlidingExit: {
+				swipe: {
+					duration: 400,
+					timingFunction: 'ease-out',
+					delay: 0,
+				},
+				fade: {
+					duration: 400,
+					timingFunction: 'ease-out',
+					delay: 0,
+				},
+			},
+		});
+	}, 500);
 	////////////
 	// RENDER //
 	////////////
@@ -264,28 +295,95 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({
 							mySeqno,
 							hisSeqno,
 							isBuyer,
-							channelNumber
-						}
+							channelNumber,
+						};
 						switch (data.typeTx) {
 							case 1: {
-								dispatch(
-									createPaymentChannel(args),
-								);
+								Store.addNotification({
+									title: 'Wonderful!',
+									message:
+										'The was correctly created, enjoy the future of payments today!',
+									type: 'success',
+									insert: 'top',
+									container: 'top-right',
+									animationIn: ['animate__animated', 'animate__fadeIn'],
+									animationOut: ['animate__animated', 'animate__fadeOut'],
+									dismiss: {
+										duration: 10000,
+										onScreen: true,
+									},
+									touchSlidingExit: {
+										swipe: {
+											duration: 400,
+											timingFunction: 'ease-out',
+											delay: 0,
+										},
+										fade: {
+											duration: 400,
+											timingFunction: 'ease-out',
+											delay: 0,
+										},
+									},
+								});
+								dispatch(createPaymentChannel(args));
 								break;
 							}
 							case 2: {
-								dispatch(
-									verifyState(args),
-								);
+								Store.addNotification({
+									title: 'Wonderful!',
+									message: 'The signature its verified successfully',
+									type: 'success',
+									insert: 'top',
+									container: 'top-right',
+									animationIn: ['animate__animated', 'animate__fadeIn'],
+									animationOut: ['animate__animated', 'animate__fadeOut'],
+									dismiss: {
+										duration: 10000,
+										onScreen: true,
+									},
+									touchSlidingExit: {
+										swipe: {
+											duration: 400,
+											timingFunction: 'ease-out',
+											delay: 0,
+										},
+										fade: {
+											duration: 400,
+											timingFunction: 'ease-out',
+											delay: 0,
+										},
+									},
+								});
+								dispatch(verifyState(args));
 								break;
 							}
 							case 3: {
-								const signatureA = async () => {
-									const signature = await dispatch(
-									updateChannel(args),
-								);
-								return signature
-							}
+								Store.addNotification({
+									title: 'Wonderful!',
+									message: 'The channel its updated your signature is:',
+									type: 'success',
+									insert: 'top',
+									container: 'top-right',
+									animationIn: ['animate__animated', 'animate__fadeIn'],
+									animationOut: ['animate__animated', 'animate__fadeOut'],
+									dismiss: {
+										duration: 10000,
+										onScreen: true,
+									},
+									touchSlidingExit: {
+										swipe: {
+											duration: 400,
+											timingFunction: 'ease-out',
+											delay: 0,
+										},
+										fade: {
+											duration: 400,
+											timingFunction: 'ease-out',
+											delay: 0,
+										},
+									},
+								});
+								dispatch(updateChannel(args));
 								break;
 							}
 						}

@@ -9,6 +9,7 @@ import { Card_Gallery } from '../../components';
 
 // DATA
 import data from '../../data/data.json';
+import { Store } from 'react-notifications-component';
 
 type GalleryProps = {
 	style?: React.CSSProperties;
@@ -17,6 +18,33 @@ type GalleryProps = {
 // Component
 const Gallery: React.FC<GalleryProps> = ({ style }) => {
 	const [selectedFilter, useSelectedFilter] = useState('');
+	setTimeout(()=> {
+		Store.addNotification({
+			title: "Welcome to the gallery section",
+			message: "Here you can test a use case of tonpayments channels, search wich offer its of your interest and click it",
+			type: "info",
+			insert: "top",
+			container: "top-center",
+			animationIn: ["animate__animated", "animate__fadeIn"],
+			animationOut: ["animate__animated", "animate__fadeOut"],
+			dismiss: {
+			  duration: 10000,
+			  onScreen: true
+			},
+			touchSlidingExit: {
+				swipe: {
+					duration: 400,
+					timingFunction: 'ease-out',
+					delay: 0,
+				},
+				fade: {
+					duration: 400,
+					timingFunction: 'ease-out',
+					delay: 0,
+				},
+			},
+		  });
+	},500)
 
 	// useSelectedFilter("Vendor") provoca que solo se renderizen los vendor
 	return (

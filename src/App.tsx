@@ -20,10 +20,13 @@ import { Gallery, Publication, PaymentChannel } from './views';
 // Data JSON7
 import data from '../src/data/data.json';
 
+import { ReactNotifications } from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
 const App: React.FC = () => {
 	return (
 		<>
 			<Router>
+			<ReactNotifications />
 				{/* HEADER */}
 				<Header />
 
