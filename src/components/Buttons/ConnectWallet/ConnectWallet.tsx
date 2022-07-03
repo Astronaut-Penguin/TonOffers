@@ -70,7 +70,7 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ open }) => {
 							Store.addNotification({
 								title: 'We created a wallet for you.',
 								message:
-									'Please send funds to this wallet so you can test our dApp',
+									'Click againt to copy your address and send testnet funds to it',
 								type: 'info',
 								insert: 'top',
 								container: 'top-center',
@@ -95,7 +95,33 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ open }) => {
 							});
 						},500)
 					} else {
-						dispatch(disconnectWallet());
+						navigator.clipboard.writeText(myWalletAddress ? myWalletAddress.toString(true, true, true) : "");
+						Store.addNotification({
+							title: 'Address copied to your clipboard for free!',
+							message:
+								'Go to @testgiver_ton_bot on telegram to get free testnet toncoins so you can use our dApp',
+							type: 'info',
+							insert: 'top',
+							container: 'top-center',
+							animationIn: ['animate__animated', 'animate__fadeIn'],
+							animationOut: ['animate__animated', 'animate__fadeOut'],
+							dismiss: {
+								duration: 10000,
+								onScreen: true,
+							},
+							touchSlidingExit: {
+								swipe: {
+									duration: 400,
+									timingFunction: 'ease-out',
+									delay: 0,
+								},
+								fade: {
+									duration: 400,
+									timingFunction: 'ease-out',
+									delay: 0,
+								},
+							},
+						});
 					}
 				}}
 				aria-expanded={open}
