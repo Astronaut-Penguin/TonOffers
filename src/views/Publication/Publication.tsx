@@ -60,6 +60,7 @@ const Publication: React.FC<PublicationProps> = ({
 		dismiss: {
 			duration: 10000,
 			onScreen: true,
+			pauseOnHover: true,
 		},
 		touchSlidingExit: {
 			swipe: {

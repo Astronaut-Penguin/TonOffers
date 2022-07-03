@@ -130,7 +130,7 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({
 			Store.addNotification({
 				title: 'Welcome to the payment section',
 				message:
-					'Here you can choose if you are the buyer or the seller, and create, update, verify and close channels',
+					'Here you can open,change and close channels. Please always start creating a channel, if not exist, we will trigger the deploy from your wallet',
 				type: 'info',
 				insert: 'top',
 				container: 'top-center',
@@ -139,6 +139,7 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({
 				dismiss: {
 					duration: 10000,
 					onScreen: true,
+					pauseOnHover: true,
 				},
 				touchSlidingExit: {
 					swipe: {

@@ -29,7 +29,8 @@ const Gallery: React.FC<GalleryProps> = ({ style }) => {
 			animationOut: ["animate__animated", "animate__fadeOut"],
 			dismiss: {
 			  duration: 10000,
-			  onScreen: true
+			  onScreen: true,
+			  pauseOnHover: true,
 			},
 			touchSlidingExit: {
 				swipe: {
