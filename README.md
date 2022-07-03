@@ -14,7 +14,8 @@ From our point of view, simply coding a webapp menu to build fast channels betwe
 + The payment channel section, that shows the available possibilities for the users when they want to interact through it.
 
 # Useful information
-The project has all to work properly, it was working, but soon a few calls to the Tonweb library stopped to work with error 429 "1 request per 1 second"( when you sends more requests to the server that it wants to handle ), the curious thing about this is that **it happens when you call 1 single function** like the deploy, we think its because the functions sends POST to get the seqno of the account and a POST to send the transaction to the blockchain in the same second. For us its not a big problem in this case since the contest managers said that its most important to have the idea, video and presentation, instead of just showing a working menu to deploy channels without any kind of use case or idea behind. Because of this we put more of our efforts in the presentational, visual and web side of the dApp
+The project has all to work properly, it was working, but soon a few calls to the Tonweb library stopped to work with error 429 "1 request per 1 second"( when you sends more requests to the server that it wants to handle ), the curious thing about this is that **it happens when you call 1 single function** like the deploy, we think its because the functions sends POST to get the seqno of the account and a POST to send the transaction to the blockchain in the same second. 
+For us its not a big problem in this case since the contest managers said **"It´s all about the idea and its presentation"**, instead of just showing a working menu to deploy channels without any kind of use case or idea behind. Because of this we put more of our efforts in the presentational, visual and web side of the dApp
 
 
 # About the result of the development for this contest
