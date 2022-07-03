@@ -1,4 +1,4 @@
-<p id="readme"><a href="https://tonoffers.netlify.app/"><img width="70%" src="./public/favicon.ico"/></a><img width="30%"  vspace="25" align="right" src="./public/assets/AnimationInspect.gif"/></p>
+<p id="readme"><a href="https://tonoffers.netlify.app/"><img width="30%" src="./public/favicon.ico"/></a><img width="60%"  vspace="25" align="right" src="./public/assets/AnimationInspect.gif"/></p>
 
 ## TonOffers
  Platform prototype for the first hack-a-TON. **Tonoffers** its a platform to connect and stablish a proper tonpayments channel with proffesionals offering goods and services users would love to buy very frequently.
