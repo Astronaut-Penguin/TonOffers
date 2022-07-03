@@ -188,6 +188,7 @@ export const createPaymentChannel = createAsyncThunk(
 				console.log('Adquiring data');
 				await delay(1500);
 				const data = await channel.getData();
+				console.log(data);
 			} catch (error: any) {
 				if (action.isBuyer) {
 					await delay(1500);
