@@ -16,6 +16,8 @@ From our point of view, simply coding a webapp menu to build fast channels betwe
 + The payment channel section, that shows the available possibilities for the users when they want to interact through it.
 
 # Useful information
+We needed to include a delay line of code inside the tonweb library to reach a better flow, because whenever we sended payments transactions, the provider rejected us due to the small time between calls ands boc transfers
+
 The project has all to work properly, the flow of the channel deployment => topUps => Init => Sign => Verify => Sign => Close => Final Cooperative Close must be polished to have a better UX and to succes with the less interactions as possible from the users
 
 We created several channels and interacted with this wallet on the testnet creating, topUps, Inits, Signs and channel close: 
