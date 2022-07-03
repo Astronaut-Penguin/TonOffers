@@ -76,11 +76,29 @@ const Header: React.FC<HeaderProps> = ({ style }) => {
 								)}
 							</Button>
 							<Navbar.Collapse in={open}>
+								<button
+									className={styles.Docs}
+									onClick={() => {
+										navigate('/docs');
+									}}
+								>
+									Docs
+								</button>
 								<ConnectWallet open={open} />
 							</Navbar.Collapse>
 						</>
 					) : (
-						<ConnectWallet open={open} />
+						<>
+							<button
+								className={styles.Docs}
+								onClick={() => {
+									navigate('/docs');
+								}}
+							>
+								Docs
+							</button>
+							<ConnectWallet open={open} />
+						</>
 					)}
 				</Container>
 			</Navbar>

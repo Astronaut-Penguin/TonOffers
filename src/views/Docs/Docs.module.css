@@ -1,0 +1,31 @@
+/* //////////// */
+/* MOBILE FIRST */
+/* //////////// */
+
+/* CONTAINER */
+.Container {
+	display: flex;
+	display: -webkit-flex;
+	flex-direction: column;
+	width: 100%;
+	min-height: 600px;
+	max-width: 1000px;
+	position: relative;
+	padding: 30px;
+
+	background-color: var(--StripeMenuWhite);
+}
+
+/* i8888888888888888888888888888888888 */
+.Back {
+	width: 50px;
+	height: 50px;
+	margin: 10px;
+}
+
+.Back > img {
+	width: 100%;
+	height: 100%;
+}
+
+/* 888888888888888888888888888888888 */

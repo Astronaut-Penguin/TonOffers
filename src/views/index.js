@@ -11,3 +11,6 @@ export { default as Publication } from './Publication/Publication';
 
 // PAYMENT CHANNEL
 export { default as PaymentChannel } from './PaymentChannel/PaymentChannel';
+
+// DOCS
+export { default as Docs } from './Docs/Docs';

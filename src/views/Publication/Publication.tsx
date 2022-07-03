@@ -47,35 +47,35 @@ const Publication: React.FC<PublicationProps> = ({
 	publicKey,
 }) => {
 	const navigate = useNavigate();
-	setTimeout(()=> {
-	Store.addNotification({
-		title: 'Welcome to the offer section',
-		message:
-			'Here you can learn about the offer and who offers the product or service, please contact him on telegram and go to tonpayments whenever you want',
-		type: 'info',
-		insert: 'top',
-		container: 'top-center',
-		animationIn: ['animate__animated', 'animate__fadeIn'],
-		animationOut: ['animate__animated', 'animate__fadeOut'],
-		dismiss: {
-			duration: 10000,
-			onScreen: true,
-			pauseOnHover: true,
-		},
-		touchSlidingExit: {
-			swipe: {
-				duration: 400,
-				timingFunction: 'ease-out',
-				delay: 0,
+	setTimeout(() => {
+		Store.addNotification({
+			title: 'Welcome to the offer section',
+			message:
+				'Here you can learn about the offer and who offers the product or service, please contact him on telegram and go to tonpayments whenever you want',
+			type: 'info',
+			insert: 'top',
+			container: 'top-center',
+			animationIn: ['animate__animated', 'animate__fadeIn'],
+			animationOut: ['animate__animated', 'animate__fadeOut'],
+			dismiss: {
+				duration: 10000,
+				onScreen: true,
+				pauseOnHover: true,
 			},
-			fade: {
-				duration: 400,
-				timingFunction: 'ease-out',
-				delay: 0,
+			touchSlidingExit: {
+				swipe: {
+					duration: 400,
+					timingFunction: 'ease-out',
+					delay: 0,
+				},
+				fade: {
+					duration: 400,
+					timingFunction: 'ease-out',
+					delay: 0,
+				},
 			},
-		},
-	});
-},500)
+		});
+	}, 500);
 	return (
 		<section style={style} className={styles.Container}>
 			<button

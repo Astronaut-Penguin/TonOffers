@@ -15,18 +15,18 @@ import {
 } from 'react-router-dom';
 
 // Views
-import { Gallery, Publication, PaymentChannel } from './views';
+import { Gallery, Publication, PaymentChannel, Docs } from './views';
 
 // Data JSON7
 import data from '../src/data/data.json';
 
-import { ReactNotifications } from 'react-notifications-component'
-import 'react-notifications-component/dist/theme.css'
+import { ReactNotifications } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
 const App: React.FC = () => {
 	return (
 		<>
 			<Router>
-			<ReactNotifications />
+				<ReactNotifications />
 				{/* HEADER */}
 				<Header />
 				{/* APP CONTAINER */}
@@ -34,6 +34,8 @@ const App: React.FC = () => {
 					<Switch>
 						{/* GALLERY VIEW */}
 						<Route path="/" element={<Gallery />} />
+
+						<Route path="/docs" element={<Docs />} />
 
 						{/* PUBLICATION VIEW */}
 						{data.data.map(function (value, i, a) {
@@ -66,11 +68,7 @@ const App: React.FC = () => {
 							return (
 								<Route
 									path={'/paymentchannel/' + value.route}
-									element={
-										<PaymentChannel
-											hisPublicKey={value.publicKey}
-										/>
-									}
+									element={<PaymentChannel hisPublicKey={value.publicKey} />}
 								/>
 							);
 						})}
