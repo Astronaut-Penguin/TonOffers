@@ -173,8 +173,8 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({
 					onChange={handleSelectTx}
 				>
 					<option value="1">Create a new payment channel</option>
-					<option value="2">Sign a new payment channel state</option>
-					<option value="3">Verify a new payment channel state</option>
+					<option value="2">Verify a new payment channel state</option>
+					<option value="3">Sign a new payment channel state</option>
 					<option value="4">Close the channel</option>
 				</Form.Select>
 
