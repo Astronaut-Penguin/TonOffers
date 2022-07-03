@@ -22,7 +22,6 @@ import data from '../src/data/data.json';
 
 import { ReactNotifications } from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
-import Video from './sections/video/video';
 const App: React.FC = () => {
 	return (
 		<>
@@ -30,7 +29,6 @@ const App: React.FC = () => {
 			<ReactNotifications />
 				{/* HEADER */}
 				<Header />
-				<Video />
 				{/* APP CONTAINER */}
 				<div className={styles.Container_App}>
 					<Switch>

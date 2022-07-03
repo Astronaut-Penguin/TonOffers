@@ -10,6 +10,7 @@ import { Card_Gallery } from '../../components';
 // DATA
 import data from '../../data/data.json';
 import { Store } from 'react-notifications-component';
+import Video from '../../sections/video/video';
 
 type GalleryProps = {
 	style?: React.CSSProperties;
@@ -49,7 +50,9 @@ const Gallery: React.FC<GalleryProps> = ({ style }) => {
 
 	// useSelectedFilter("Vendor") provoca que solo se renderizen los vendor
 	return (
+		
 		<section style={style} className={styles.Container}>
+							<Video />
 			<h2 className={styles.Title}>Services Gallery</h2>
 
 			<div className={styles.Container_Cards}>
