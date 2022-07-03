@@ -82,7 +82,7 @@ const Header: React.FC<HeaderProps> = ({ style }) => {
 										navigate('/docs');
 									}}
 								>
-									Docs
+									Presentation
 								</button>
 								<ConnectWallet open={open} />
 							</Navbar.Collapse>
