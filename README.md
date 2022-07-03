@@ -1,4 +1,4 @@
-<p id="readme"><a href="https://tonoffers.netlify.app/"><img width="30%" height="50%" src="./public/favicon.ico"/></a><img width="55%"  vspace="25" align-items="center" src="./public/assets/AnimationInspect.gif"/></p>
+<p id="readme"><a href="https://tonoffers.netlify.app/"><img width="30%" height="100%" src="./public/favicon.ico"/></a><img width="55%"  vspace="25" align-items="center" src="./public/assets/AnimationInspect.gif"/></p>
 
 
 
