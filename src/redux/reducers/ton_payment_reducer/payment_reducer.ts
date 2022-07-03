@@ -126,8 +126,6 @@ export const createPaymentChannel = createAsyncThunk(
 				new TonWeb.HttpProvider(providerUrl, { apiKey }),
 			); // Initialize TON SDK
 
-			await delay(1000);
-
 			const hisWallet = tonweb.wallet.create({
 				publicKey: tonweb.utils.hexToBytes(action.hisPublicKey),
 			});
@@ -138,10 +136,10 @@ export const createPaymentChannel = createAsyncThunk(
 			const channelInitState = {
 				balanceA: action.isBuyer
 					? toNano(action.myBalance.toString())
-					: toNano('0'),
-				balanceB: action.isBuyer
-					? toNano('0')
 					: toNano(action.hisBalance.toString()),
+				balanceB: action.isBuyer
+					? toNano(action.hisBalance.toString())
+					: toNano(action.myBalance.toString()),
 				seqnoA: new BN(0),
 				seqnoB: new BN(0),
 			};
@@ -169,15 +167,11 @@ export const createPaymentChannel = createAsyncThunk(
 			console.log('Created channel');
 			console.log(channel);
 
-			await delay(1000);
-
 			const mySecretKey = thunkAPI.getState().ton.myKeyPair.secretKey;
 			console.log('Got Keys');
 			const myWallet = tonweb.wallet.create({
 				publicKey: thunkAPI.getState().ton.myKeyPair.publicKey,
 			});
-
-			await delay(1000);
 
 			const fromWallet = channel.fromWallet({
 				wallet: myWallet,
@@ -186,43 +180,53 @@ export const createPaymentChannel = createAsyncThunk(
 			console.log('Created From wallet');
 
 			try {
-				console.log('Adquiring data');
 				await delay(1500);
 				const data = await channel.getData();
-				console.log(data);
+				console.log(data)
 			} catch (error: any) {
-				if (action.isBuyer) {
-					await delay(1500);
+				console.error(error);
+			}
 
-					console.log('Deploying');
+			if (action.isBuyer) {
+				await delay(1500);
 
-					await fromWallet.deploy().send(toNano('0.05'));
+				console.log('Deploying');
 
-					await delay(1500);
-
-					console.log(await channel.getChannelState());
-
-					await delay(1500);
-
-					console.log('TopUping');
-
-					await fromWallet
-						.topUp({
-							coinsA: action.isBuyer ? channelInitState.balanceA : new BN(0),
-							coinsB: action.isBuyer ? new BN(0) : channelInitState.balanceA,
-						})
-						.send(
-							action.isBuyer
-								? channelInitState.balanceA.add(toNano('0.05'))
-								: channelInitState.balanceB.add(toNano('0.05')),
-						); // +0.05 TON to network fees
-
-					await delay(1500);
-
-					console.log('Initializing');
-
-					await fromWallet.init(channelInitState);
+				try {
+					await fromWallet.deploy().send(toNano('0.051'));
+				} catch (error: any) {
+					console.error(error);
 				}
+			}
+			
+
+			try {
+				await delay(1500);
+				console.log('TopUping');
+				await fromWallet
+					.topUp({
+						coinsA: action.isBuyer
+							? channelInitState.balanceA
+							: channelInitState.balanceB,
+						coinsB: action.isBuyer
+							? channelInitState.balanceB
+							: channelInitState.balanceA,
+					})
+					.send(
+						action.isBuyer
+							? channelInitState.balanceA.add(toNano('0.052'))
+							: channelInitState.balanceB.add(toNano('0.052')),
+					); // +0.05 TON to network fees
+			} catch (error: any) {
+				console.error(error);
+			}
+
+			try {
+				await delay(1500);
+				console.log('Initializing');
+				await fromWallet.init(channelInitState);
+			} catch (error: any) {
+				console.error(error);
 			}
 
 			return {
@@ -416,65 +420,65 @@ export const closeChannel = createAsyncThunk(
 					...channelState,
 					hisSignature: signatureClose,
 				})
-				.send(toNano('0.05'));
-				console.log('sended');
-				Store.addNotification({
-					title: 'Channel close request signed',
-					message:
-						'Click this notification to copy to clipboard the signature and share it with the another part of the channel',
-					type: 'info',
-					insert: 'top',
-					container: 'top-center',
-					animationIn: ['animate__animated', 'animate__fadeIn'],
-					animationOut: ['animate__animated', 'animate__fadeOut'],
-					dismiss: {
-						duration: 10000,
-						onScreen: true,
-						pauseOnHover: true,
-					},
-					onRemoval: () => {
-						navigator.clipboard.writeText(signatureClose);
-						Store.addNotification({
-							title: 'Signature copied to your clipboard',
-							message:
-								'Now share it, if its signed then the payment has no way back',
-							type: 'success',
-							insert: 'top',
-							container: 'top-right',
-							animationIn: ['animate__animated', 'animate__fadeIn'],
-							animationOut: ['animate__animated', 'animate__fadeOut'],
-							dismiss: {
-								duration: 10000,
-								onScreen: true,
-								pauseOnHover: true,
-							},
-							touchSlidingExit: {
-								swipe: {
-									duration: 400,
-									timingFunction: 'ease-out',
-									delay: 0,
-								},
-								fade: {
-									duration: 400,
-									timingFunction: 'ease-out',
-									delay: 0,
-								},
-							},
-						});
-					},
-					touchSlidingExit: {
-						swipe: {
-							duration: 400,
-							timingFunction: 'ease-out',
-							delay: 0,
+				.send(toNano('0.054'));
+			console.log('sended');
+			Store.addNotification({
+				title: 'Channel close request signed',
+				message:
+					'Click this notification to copy to clipboard the signature and share it with the another part of the channel',
+				type: 'info',
+				insert: 'top',
+				container: 'top-center',
+				animationIn: ['animate__animated', 'animate__fadeIn'],
+				animationOut: ['animate__animated', 'animate__fadeOut'],
+				dismiss: {
+					duration: 10000,
+					onScreen: true,
+					pauseOnHover: true,
+				},
+				onRemoval: () => {
+					navigator.clipboard.writeText(signatureClose);
+					Store.addNotification({
+						title: 'Signature copied to your clipboard',
+						message:
+							'Now share it, if its signed then the payment has no way back',
+						type: 'success',
+						insert: 'top',
+						container: 'top-right',
+						animationIn: ['animate__animated', 'animate__fadeIn'],
+						animationOut: ['animate__animated', 'animate__fadeOut'],
+						dismiss: {
+							duration: 10000,
+							onScreen: true,
+							pauseOnHover: true,
 						},
-						fade: {
-							duration: 400,
-							timingFunction: 'ease-out',
-							delay: 0,
+						touchSlidingExit: {
+							swipe: {
+								duration: 400,
+								timingFunction: 'ease-out',
+								delay: 0,
+							},
+							fade: {
+								duration: 400,
+								timingFunction: 'ease-out',
+								delay: 0,
+							},
 						},
+					});
+				},
+				touchSlidingExit: {
+					swipe: {
+						duration: 400,
+						timingFunction: 'ease-out',
+						delay: 0,
 					},
-				});
+					fade: {
+						duration: 400,
+						timingFunction: 'ease-out',
+						delay: 0,
+					},
+				},
+			});
 
 			return true; // return true if the signature its verified but the user dont want to sign yet
 		} catch (error) {
