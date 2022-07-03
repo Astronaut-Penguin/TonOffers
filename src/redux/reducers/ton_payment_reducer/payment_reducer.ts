@@ -35,7 +35,8 @@ export const connectWallet = createAsyncThunk(
 		const tonweb = new TonWeb(new TonWeb.HttpProvider(providerUrl, { apiKey })); // Initialize TON SDK
 
 		console.log('creating mnemonic');
-		//const mnemonic = await tonMnemonic.generateMnemonic();
+		const mnemonic = await tonMnemonic.generateMnemonic();
+		/*
 		const mnemonic = [
 			'type',
 			'vacuum',
@@ -62,6 +63,7 @@ export const connectWallet = createAsyncThunk(
 			'sheriff',
 			'innocent',
 		];
+		*/
 		console.log(mnemonic);
 		const myKeyPair = await tonMnemonic.mnemonicToKeyPair(mnemonic);
 		console.log('your public key');
