@@ -171,6 +171,7 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({
 					<option value="1">Create a new payment channel</option>
 					<option value="2">Sign a new payment channel state</option>
 					<option value="3">Verify a new payment channel state</option>
+					<option value="4">Close the channel</option>
 				</Form.Select>
 
 				<br />
@@ -300,7 +301,7 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({
 						switch (data.typeTx) {
 							case "1": {
 								Store.addNotification({
-									title: 'Wonderful!',
+									title: 'Channel created!',
 									message:
 										'The was correctly created, enjoy the future of payments today!',
 									type: 'success',
@@ -330,7 +331,7 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({
 							}
 							case "2": {
 								Store.addNotification({
-									title: 'Wonderful!',
+									title: 'Channel verified!',
 									message: 'The signature its verified successfully',
 									type: 'success',
 									insert: 'top',
@@ -359,8 +360,37 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({
 							}
 							case "3": {
 								Store.addNotification({
-									title: 'Wonderful!',
-									message: 'The channel its updated your signature is:',
+									title: 'Channel updated!',
+									message: 'The channel its updated',
+									type: 'success',
+									insert: 'top',
+									container: 'top-right',
+									animationIn: ['animate__animated', 'animate__fadeIn'],
+									animationOut: ['animate__animated', 'animate__fadeOut'],
+									dismiss: {
+										duration: 10000,
+										onScreen: true,
+									},
+									touchSlidingExit: {
+										swipe: {
+											duration: 400,
+											timingFunction: 'ease-out',
+											delay: 0,
+										},
+										fade: {
+											duration: 400,
+											timingFunction: 'ease-out',
+											delay: 0,
+										},
+									},
+								});
+								dispatch(updateChannel(args));
+								break;
+							}
+							case "4": {
+								Store.addNotification({
+									title: 'Channel closed!',
+									message: 'The channel its closed',
 									type: 'success',
 									insert: 'top',
 									container: 'top-right',
