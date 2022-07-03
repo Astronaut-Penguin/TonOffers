@@ -19,7 +19,7 @@ const Docs = () => {
 			>
 				<img src={Back} alt="" />
 			</button>
-			<h1>Presentation</h1>
+			<h1>About</h1>
 			<p></p>
 			<h3>TonOffers</h3>
 			<p>
