@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { Store } from 'react-notifications-component';
 
 const TonWeb = require('tonweb');
 const tonMnemonic = require('tonweb-mnemonic');
@@ -94,7 +95,7 @@ export const connectWallet = createAsyncThunk(
 
 export const fetchBalance = createAsyncThunk(
 	'Fetch toncoins',
-	async (action,thunkAPI: any) => {
+	async (action, thunkAPI: any) => {
 		try {
 			const providerUrl = 'https://testnet.toncenter.com/api/v2/jsonRPC'; // TON HTTP API url. Use this url for testnet
 			const apiKey = process.env.api_key;
@@ -200,7 +201,7 @@ export const createPaymentChannel = createAsyncThunk(
 					await delay(1500);
 
 					console.log(await channel.getChannelState());
-					
+
 					await delay(1500);
 
 					console.log('TopUping');
@@ -238,41 +239,94 @@ export const updateChannel = createAsyncThunk(
 	'Update payment channel and sign',
 	async (action: any, thunkAPI: any) => {
 		try {
-			console.log(action);
+			console.log('starting the channel update');
 			const channel = thunkAPI.getState().ton.currentChannel;
-
-			const signature = action.signature;
-
 			const data = await channel.getData();
-
-			const seqnoA = await data.seqnoA.toString();
-			const seqnoB = await data.seqnoB.toString();
-
-			const mySeqno = action.isBuyer ? new BN(seqnoA) : new BN(seqnoB);
-			const hisSeqno = action.isBuyer ? seqnoB : seqnoA;
-			const hisSeqnoString = hisSeqno.toString();
-			const hisSeqnoNumber = (await hisSeqnoString.toNumber()) + 1;
-			const hisSeqnoFinal = new BN(hisSeqnoNumber.toString()); //the one that sends payment requests is the invited not the buyer, and its always the userB
-
+			console.log('got data');
+			const seqnoA = action.isBuyer
+				? action.mySeqno.toString()
+				: action.hisSeqno.toString();
+			const seqnoB = action.isBuyer
+				? action.hisSeqno.toString()
+				: action.mySeqno.toString();
+			console.log('got seqnos');
 			const channelState = {
 				balanceA: action.isBuyer
-					? toNano(action.myBalance)
-					: toNano(action.hisBalance),
+					? toNano(action.myBalance.toString())
+					: toNano(action.hisBalance.toString()),
 				balanceB: action.isBuyer
-					? toNano(action.hisBalance)
-					: toNano(action.myBalance),
-				seqnoA: action.isBuyer ? mySeqno : hisSeqnoFinal,
-				seqnoB: action.isBuyer ? hisSeqnoFinal : mySeqno,
+					? toNano(action.hisBalance.toString())
+					: toNano(action.myBalance.toString()),
+				seqnoA: action.isBuyer ? seqnoA : seqnoB,
+				seqnoB: action.isBuyer ? seqnoA : seqnoB,
 			};
 
-			if (!(await channel.verifyState(channelState, signature))) {
-				throw new Error('Invalid A signature');
-			}
-
-			console.log('valid signature');
-
+			console.log('signing');
 			const newSignature = await channel.signState(channelState);
-			return newSignature; //both users needs to save the signatures whenever the sign, so the channel can be emergency cancelled if they want.
+			console.log(newSignature);
+			try {
+				await channel.verifyState(channelState, newSignature);
+			} catch (error: any) {
+				console.error(error);
+			}
+			console.log('valid signature'); //both users needs to save the signatures whenever the sign, so the channel can be emergency cancelled if they want.
+			Store.addNotification({
+				title: 'Channel update signed',
+				message:
+					'Click this notification to copy to clipboard the signature and share it with the another part of the channel',
+				type: 'info',
+				insert: 'top',
+				container: 'top-center',
+				animationIn: ['animate__animated', 'animate__fadeIn'],
+				animationOut: ['animate__animated', 'animate__fadeOut'],
+				dismiss: {
+					duration: 10000,
+					onScreen: true,
+					pauseOnHover: true,
+				},
+				onRemoval: () => {
+					navigator.clipboard.writeText(newSignature);
+					Store.addNotification({
+						title: 'Signature copied to your clipboard',
+						message:
+							'Now share it, if its signed then the payment has no way back',
+						type: 'success',
+						insert: 'top',
+						container: 'top-right',
+						animationIn: ['animate__animated', 'animate__fadeIn'],
+						animationOut: ['animate__animated', 'animate__fadeOut'],
+						dismiss: {
+							duration: 10000,
+							onScreen: true,
+							pauseOnHover: true,
+						},
+						touchSlidingExit: {
+							swipe: {
+								duration: 400,
+								timingFunction: 'ease-out',
+								delay: 0,
+							},
+							fade: {
+								duration: 400,
+								timingFunction: 'ease-out',
+								delay: 0,
+							},
+						},
+					});
+				},
+				touchSlidingExit: {
+					swipe: {
+						duration: 400,
+						timingFunction: 'ease-out',
+						delay: 0,
+					},
+					fade: {
+						duration: 400,
+						timingFunction: 'ease-out',
+						delay: 0,
+					},
+				},
+			});
 		} catch (error) {
 			console.log('Cant Perform Action: ', error);
 		}
@@ -284,38 +338,143 @@ export const verifyState = createAsyncThunk(
 	'Sign payment channel update',
 	async (action: any, thunkAPI: any) => {
 		try {
-			console.log(action);
+			console.log('verifying');
 			const channel = thunkAPI.getState().ton.currentChannel;
 
-			const signature = action.signature;
-
+			const signature = new Uint8Array(action.signature);
+			console.log('builded signature');
 			const data = await channel.getData();
 
-			const seqnoA = await data.seqnoA.toString();
-			const seqnoB = await data.seqnoB.toString();
-
-			const mySeqno = action.isBuyer ? new BN(seqnoA) : new BN(seqnoB);
-			const hisSeqno = action.isBuyer ? seqnoB : seqnoA;
-			const hisSeqnoString = hisSeqno.toString();
-			const hisSeqnoNumber = (await hisSeqnoString.toNumber()) + 1;
-			const hisSeqnoFinal = new BN(hisSeqnoNumber.toString()); //the one that sends payment requests is the invited not the buyer, and its always the userB
-
+			const seqnoA = action.isBuyer
+				? action.mySeqno.toString()
+				: action.hisSeqno.toString();
+			const seqnoB = action.isBuyer
+				? action.hisSeqno.toString()
+				: action.mySeqno.toString();
 			const channelState = {
 				balanceA: action.isBuyer
-					? toNano(action.myBalance)
-					: toNano(action.hisBalance),
+					? toNano(action.myBalance.toString())
+					: toNano(action.hisBalance.toString()),
 				balanceB: action.isBuyer
-					? toNano(action.hisBalance)
-					: toNano(action.myBalance),
-				seqnoA: action.isBuyer ? mySeqno : hisSeqnoFinal,
-				seqnoB: action.isBuyer ? hisSeqnoFinal : mySeqno,
+					? toNano(action.hisBalance.toString())
+					: toNano(action.myBalance.toString()),
+				seqnoA: action.isBuyer ? seqnoA : seqnoB,
+				seqnoB: action.isBuyer ? seqnoB : seqnoA,
 			};
 
-			if (!(await channel.verifyState(channelState, signature))) {
-				throw new Error('Invalid A signature');
+			console.log('created channel state to verify');
+
+			try {
+				await channel.verifyState(channelState, signature);
+			} catch (error: any) {
+				console.error(error);
 			}
 
 			console.log('valid signature');
+
+			return true; // return true if the signature its verified but the user dont want to sign yet
+		} catch (error) {
+			console.log('Cant Perform Action: ', error);
+		}
+	},
+);
+
+export const closeChannel = createAsyncThunk(
+	'Sign payment channel update',
+	async (action: any, thunkAPI: any) => {
+		try {
+			const channel = thunkAPI.getState().ton.currentChannel;
+			const fromWallet = thunkAPI.getState().ton.fromWallet;
+			const seqnoA = action.isBuyer
+				? action.mySeqno.toString()
+				: action.hisSeqno.toString();
+			const seqnoB = action.isBuyer
+				? action.hisSeqno.toString()
+				: action.mySeqno.toString();
+			const channelState = {
+				balanceA: action.isBuyer
+					? toNano(action.myBalance.toString())
+					: toNano(action.hisBalance.toString()),
+				balanceB: action.isBuyer
+					? toNano(action.hisBalance.toString())
+					: toNano(action.myBalance.toString()),
+				seqnoA: action.isBuyer ? seqnoA : seqnoB,
+				seqnoB: action.isBuyer ? seqnoB : seqnoA,
+			};
+			console.log('closing channel');
+			const signatureClose = await channel.signClose(channelState);
+
+			try {
+				console.log('verifying signature');
+				await channel.verifyState(channelState, signatureClose);
+			} catch (error: any) {
+				console.error(error);
+			}
+			console.log('sending close');
+			await fromWallet
+				.close({
+					...channelState,
+					hisSignature: signatureClose,
+				})
+				.send(toNano('0.05'));
+				console.log('sended');
+				Store.addNotification({
+					title: 'Channel close request signed',
+					message:
+						'Click this notification to copy to clipboard the signature and share it with the another part of the channel',
+					type: 'info',
+					insert: 'top',
+					container: 'top-center',
+					animationIn: ['animate__animated', 'animate__fadeIn'],
+					animationOut: ['animate__animated', 'animate__fadeOut'],
+					dismiss: {
+						duration: 10000,
+						onScreen: true,
+						pauseOnHover: true,
+					},
+					onRemoval: () => {
+						navigator.clipboard.writeText(signatureClose);
+						Store.addNotification({
+							title: 'Signature copied to your clipboard',
+							message:
+								'Now share it, if its signed then the payment has no way back',
+							type: 'success',
+							insert: 'top',
+							container: 'top-right',
+							animationIn: ['animate__animated', 'animate__fadeIn'],
+							animationOut: ['animate__animated', 'animate__fadeOut'],
+							dismiss: {
+								duration: 10000,
+								onScreen: true,
+								pauseOnHover: true,
+							},
+							touchSlidingExit: {
+								swipe: {
+									duration: 400,
+									timingFunction: 'ease-out',
+									delay: 0,
+								},
+								fade: {
+									duration: 400,
+									timingFunction: 'ease-out',
+									delay: 0,
+								},
+							},
+						});
+					},
+					touchSlidingExit: {
+						swipe: {
+							duration: 400,
+							timingFunction: 'ease-out',
+							delay: 0,
+						},
+						fade: {
+							duration: 400,
+							timingFunction: 'ease-out',
+							delay: 0,
+						},
+					},
+				});
 
 			return true; // return true if the signature its verified but the user dont want to sign yet
 		} catch (error) {

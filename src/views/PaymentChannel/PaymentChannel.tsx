@@ -11,6 +11,7 @@ import { Form } from 'react-bootstrap';
 import { Button_Action } from '../../components';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import {
+	closeChannel,
 	createPaymentChannel,
 	toHexString,
 	updateChannel,
@@ -60,10 +61,11 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({
 		: '';
 
 	// STATES
+
 	// User Data for Register
 	const [data, setData] = useState({
-		type: "1",
-		typeTx: "1",
+		type: '1',
+		typeTx: '1',
 		my: '',
 		his: '',
 		myBalance: 0,
@@ -72,7 +74,7 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({
 		hisSeqno: 0,
 		channelNumber: 0,
 
-		signature: '',
+		signature: 0,
 	});
 	const [checked, setChecked] = useState<boolean>(false);
 	// Catch values
@@ -120,38 +122,38 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({
 	};
 
 	// Tutorial
-	const [tutorialShowed,setTutorialShowed] = useState(false)
+	const [tutorialShowed, setTutorialShowed] = useState(false);
 
-	if(!tutorialShowed)
-	setTimeout(() => {
-		setTutorialShowed(true)
-		Store.addNotification({
-			title: 'Welcome to the payment section',
-			message:
-				'Here you can choose if you are the buyer or the seller, and create, update, verify and close channels',
-			type: 'info',
-			insert: 'top',
-			container: 'top-center',
-			animationIn: ['animate__animated', 'animate__fadeIn'],
-			animationOut: ['animate__animated', 'animate__fadeOut'],
-			dismiss: {
-				duration: 10000,
-				onScreen: true,
-			},
-			touchSlidingExit: {
-				swipe: {
-					duration: 400,
-					timingFunction: 'ease-out',
-					delay: 0,
+	if (!tutorialShowed)
+		setTimeout(() => {
+			setTutorialShowed(true);
+			Store.addNotification({
+				title: 'Welcome to the payment section',
+				message:
+					'Here you can choose if you are the buyer or the seller, and create, update, verify and close channels',
+				type: 'info',
+				insert: 'top',
+				container: 'top-center',
+				animationIn: ['animate__animated', 'animate__fadeIn'],
+				animationOut: ['animate__animated', 'animate__fadeOut'],
+				dismiss: {
+					duration: 10000,
+					onScreen: true,
 				},
-				fade: {
-					duration: 400,
-					timingFunction: 'ease-out',
-					delay: 0,
+				touchSlidingExit: {
+					swipe: {
+						duration: 400,
+						timingFunction: 'ease-out',
+						delay: 0,
+					},
+					fade: {
+						duration: 400,
+						timingFunction: 'ease-out',
+						delay: 0,
+					},
 				},
-			},
-		});
-	}, 500);
+			});
+		}, 500);
 	////////////
 	// RENDER //
 	////////////
@@ -291,7 +293,7 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({
 				<Button_Action
 					text="Send"
 					onClick={() => {
-						const isBuyer = type == "1" ? true : false;
+						const isBuyer = type == '1' ? true : false;
 						const args = {
 							myPublicKey,
 							hisPublicKey,
@@ -301,9 +303,11 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({
 							hisSeqno,
 							isBuyer,
 							channelNumber,
+							signature,
 						};
 						switch (data.typeTx) {
-							case "1": {
+							case '1': {
+								dispatch(createPaymentChannel(args));
 								Store.addNotification({
 									title: 'Channel created!',
 									message:
@@ -330,10 +334,10 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({
 										},
 									},
 								});
-								dispatch(createPaymentChannel(args));
 								break;
 							}
-							case "2": {
+							case '2': {
+								dispatch(verifyState(args));
 								Store.addNotification({
 									title: 'Channel verified!',
 									message: 'The signature its verified successfully',
@@ -359,10 +363,11 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({
 										},
 									},
 								});
-								dispatch(verifyState(args));
+
 								break;
 							}
-							case "3": {
+							case '3': {
+								dispatch(updateChannel(args));
 								Store.addNotification({
 									title: 'Channel updated!',
 									message: 'The channel its updated',
@@ -388,10 +393,10 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({
 										},
 									},
 								});
-								dispatch(updateChannel(args));
 								break;
 							}
-							case "4": {
+							case '4': {
+								dispatch(closeChannel(args));
 								Store.addNotification({
 									title: 'Channel closed!',
 									message: 'The channel its closed',
@@ -417,7 +422,6 @@ const PaymentChannel: React.FC<PaymentChannelProps> = ({
 										},
 									},
 								});
-								//dispatch(updateChannel(args));
 								break;
 							}
 						}

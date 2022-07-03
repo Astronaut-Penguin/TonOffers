@@ -45,11 +45,9 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({ open }) => {
 	const interval = setInterval(async ()=>{
 		if(connected){
 			await dispatch(fetchBalance())
-		}
-		return () => {
 			clearInterval(interval);
-		};
-	},15000)
+		}
+	},5000)
 
 	////////////
 	// RENDER //
