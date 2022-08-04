@@ -4,6 +4,8 @@
 
 ## TonOffers
  Platform prototype for the first hack-a-TON. **Tonoffers** its a platform to connect and stablish a proper tonpayments channel with proffesionals offering goods and services users would love to buy very frequently.
+
+Link: to test deploy https://tonoffers.netlify.app/
  
 # Motivation
 Our main reason to build this project for this contest borns from the idea of the task itself "think about the most useful way to implement tonpayments channels"
